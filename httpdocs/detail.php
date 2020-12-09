@@ -14,6 +14,9 @@ $mediaObject = new MediaObject(intval($_GET['id']), true);
     <link rel="stylesheet" href="assets/vendor/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <style>
         pre {
+            border: 1px solid #c1c1c1;
+            border-radius: 5px;
+            padding: 15px;
             max-height: 400px;
             overflow: auto;
         }
