@@ -49,7 +49,10 @@ if($first_install) {
     $config['development']['rest']['client']['api_user'] = $pressmind_api_user;
     $config['development']['rest']['client']['api_password'] = $pressmind_api_password;
 
-    file_put_contents(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config.json', json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    $config_file = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config.json';
+
+    Writer::write('Writing config to ' . $config_file, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+    file_put_contents($config_file, json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 }
 
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -60,11 +63,12 @@ $args[1] = isset($argv[1]) ? $argv[1] : null;
 $namespace = 'Pressmind\ORM\Object';
 
 if($args[1] != 'only_static') {
+
     require_once __DIR__ . DIRECTORY_SEPARATOR . 'static_models.php';
-    /** @var array $models */
+
+    /** @var array $models included from ./static_model.php*/
     foreach ($models as $model) {
         try {
-            /** @var ORM\Object\AbstractObject $model_name */
             $model_name = $namespace . $model;
             Writer::write('Creating database table for model: ' . $model_name, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
             $scaffolder = new DB\Scaffolder\Mysql(new $model_name());
@@ -81,6 +85,7 @@ if($args[1] != 'only_static') {
     $config = Registry::getInstance()->get('config');
 
     if($first_install) {
+        Writer::write('Creating required directories', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
         $required_directories = [];
         $required_directories[] = HelperFunctions::buildPathString([APPLICATION_PATH, 'Custom', 'MediaType']);
         $required_directories[] = HelperFunctions::replaceConstantsFromConfig($config['logging']['log_file_path']);
@@ -96,6 +101,7 @@ if($args[1] != 'only_static') {
         foreach ($required_directories as $directory) {
             if (!is_dir($directory)) {
                 mkdir($directory, 0755);
+                Writer::write('Directory ' . $directory . ' created', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
             }
         }
     }
@@ -110,6 +116,7 @@ if($args[1] != 'only_static') {
         $media_types_pretty_url = [];
         $media_types_allowed_visibilities = [];
         foreach ($response->result as $item) {
+            Writer::write('Parsing media object type ' . $item->type_name, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
             $media_types[$item->id_type] = $item->type_name;
             $ids[] = $item->id_type;
             $pretty_url = [
@@ -149,7 +156,7 @@ if($args[1] == 'with_static' || $args[1] == 'only_static') {
         Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
     }
 } else {
-    Writer::write('Necessary static data has not been dumped. Dump static data by calling "install.php with_static" or "install.php only_static"', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+    Writer::write('Some additional static data has not been dumped yet. Dump static data by calling "install.php with_static" or "install.php only_static"', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
     Writer::write('You can also dump the data by hand. Data resides here: ' . HelperFunctions::buildPathString([dirname(__DIR__), 'src', 'data']), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
 }
 
