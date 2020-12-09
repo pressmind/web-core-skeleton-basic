@@ -7,9 +7,9 @@ use Pressmind\DB\Adapter\Pdo;
 
 /**
  * The pressmind lib needs five CONSTANTS to work
- * BASE_PATH:
+ * BASE_PATH: The base path of the application (usually the directory that contains the document_root folder)
  * APPLICATION_PATH: This is the path where all application files are stored (it's a good idea to have the base path outside the document_root of your webserver)
- * WEBSERVER_DOCUMENT_ROOT: the document_root of your webserver (should normally be be BASE_PATH . '/htdocs)
+ * WEBSERVER_DOCUMENT_ROOT: the document_root of your webserver (should normally be be BASE_PATH . '/httpdocs)
  * WEBSERVER_HTTP: How the webpage is accessed via http(s) (https://your-domain.com)
  * ENV: The environment (development, testing, production)
  */
@@ -28,7 +28,18 @@ if (php_sapi_name() != "cli") {
 } else {
     define('WEBSERVER_HTTP', 'http://127.0.0.1/');
 }
-define('ENV', 'development'); //For example purposes we set the ENV here, for real world applications it's a good idea to set an environment variable in a .htaccess file or in the webservers configuration
+
+/**
+ * The ENV constant is used by the configuration to determine the environmet the application is running in
+ * (so you can share the most common configurations from development to production or testing but overwrite the database credentials for example)
+ * possible values are:
+ * development
+ * testing
+ * production
+ * For example purposes we set the ENV to development here, for real world applications it's a good idea to set an environment variable in a .htaccess file or in the webservers configuration
+ */
+define('ENV', 'development');
+//define('ENV', getenv('APP_ENV');
 
 /**
  * Import the Pressmind Autoloader
