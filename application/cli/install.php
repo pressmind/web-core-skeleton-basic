@@ -4,7 +4,9 @@ use Exception;
 use Pressmind\Log\Writer;
 use Pressmind\REST\Client;
 
-if(!file_exists(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config.json')) {
+$first_install = !file_exists(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config.json');
+
+if($first_install) {
     echo "Welcome to the initial installation of your new pressmind web-core project.\n";
     echo "Please enter some initial configuration data.\n";
 
@@ -71,13 +73,34 @@ if($args[1] != 'only_static') {
         }
     }
 
+    $config = Registry::getInstance()->get('config');
+
+    if($first_install) {
+        $required_directories = [];
+        $required_directories[] = HelperFunctions::buildPathString([APPLICATION_PATH, 'Custom', 'MediaType']);
+        $required_directories[] = HelperFunctions::replaceConstantsFromConfig($config['logging']['log_file_path']);
+        $required_directories[] = HelperFunctions::replaceConstantsFromConfig($config['tmp_dir']);
+        if ($config['file_handling']['storage']['provider'] == 'filesystem') {
+            $required_directories[] = HelperFunctions::buildPathString([BASE_PATH, HelperFunctions::replaceConstantsFromConfig($config['file_handling']['storage']['bucket'])]);
+        }
+        if ($config['image_handling']['storage']['provider'] == 'filesystem') {
+            $required_directories[] = HelperFunctions::buildPathString([BASE_PATH, HelperFunctions::replaceConstantsFromConfig($config['image_handling']['storage']['bucket'])]);
+        }
+        $required_directories[] = HelperFunctions::buildPathString([HelperFunctions::replaceConstantsFromConfig($config['server']['document_root']), 'docs', 'objecttypes']);
+
+        foreach ($required_directories as $directory) {
+            if (!is_dir($directory)) {
+                mkdir($directory, 0755);
+            }
+        }
+    }
+
     try {
         Writer::write('Requesting and parsing information on media object types ...', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
         $importer = new Import();
         $ids = [];
         $client = new Client();
         $response = $client->sendRequest('ObjectType', 'getAll');
-        $config = Registry::getInstance()->get('config');
         $media_types = [];
         $media_types_pretty_url = [];
         $media_types_allowed_visibilities = [];
