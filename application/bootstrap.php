@@ -35,7 +35,7 @@ define('ENV', 'development'); //For example purposes we set the ENV here, for re
  * You can omit this if your using composers auto loading
  */
 require_once BASE_PATH . '/vendor/Pressmind/sdk/Autoloader.php';
-Autoloader::register();
+\Pressmind\Autoloader::register();
 
 /**
  * Import the Custom Autoloader
@@ -43,7 +43,10 @@ Autoloader::register();
 require_once APPLICATION_PATH . DIRECTORY_SEPARATOR . 'Custom' . DIRECTORY_SEPARATOR . 'Autoloader.php';
 \Custom\Autoloader::register();
 
-require_once BASE_PATH . '/vendor/aws-autoloader.php';
+/**
+ * Import the composer autoloader
+ */
+require_once BASE_PATH . '/vendor/autoload.php';
 
 
 /**
