@@ -1,0 +1,11 @@
+.idea
+/test
+/vendor
+/application/config.json
+/application/Custom/MediaType/*.php
+/application/Custom/Views/*_Example.php
+/application/logs/*
+/application/tmp/*
+/httpdocs/assets/images/*
+/httpdocs/assets/files/*
+/httpdocs/docs/objecttypes/*

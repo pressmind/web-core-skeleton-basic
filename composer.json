@@ -1,0 +1,21 @@
+{
+    "name": "pressmind/web-core-skeleton-basic",
+    "description": "A simple skeleton web application using the pressmind SDK",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Graute",
+            "email": "m.graute@team-braeutigam.de"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/pressmind/sdk.git"
+        }
+    ],
+    "require": {
+        "pressmind/sdk": "dev-master"
+    }
+}
