@@ -7,18 +7,23 @@ use Pressmind\REST\Client;
 $first_install = !file_exists(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config.json');
 
 if($first_install) {
-    echo "Welcome to the initial installation of your new pressmind web-core project.\n";
-    echo "Please enter some initial configuration data.\n";
-
-    $default_config_file = dirname(dirname(__DIR__))
+    $sdk_directory = dirname(dirname(__DIR__))
         . DIRECTORY_SEPARATOR
         . 'vendor'
         . DIRECTORY_SEPARATOR
         . 'Pressmind'
         . DIRECTORY_SEPARATOR
-        . 'sdk'
-        . DIRECTORY_SEPARATOR
-        . 'config.default.json';
+        . 'sdk';
+    if(!is_dir($sdk_directory)) {
+        echo "ERROR!\n";
+        echo "pressmind sdk seems not to be installed. Please run 'composer install' to install all required dependencies before running this script\n";
+        die();
+    }
+
+    echo "Welcome to the initial installation of your new pressmind web-core project.\n";
+    echo "Please enter some initial configuration data.\n";
+
+    $default_config_file = $sdk_directory . DIRECTORY_SEPARATOR . 'config.default.json';
 
     $config = json_decode(file_get_contents($default_config_file), true);
 
