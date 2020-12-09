@@ -16,6 +16,8 @@
         }
     ],
     "require": {
-        "pressmind/sdk": "dev-master"
+        "pressmind/sdk": "dev-master",
+        "ext-json": "*",
+        "ext-readline": "*"
     }
 }
