@@ -33,5 +33,8 @@ $search = new Pressmind\Search(
     <?php } ?>
     </div>
 </div>
+<script src="assets/vendor/jquery/jquery-3.5.1.min.js"></script>
+<script src="assets/vendor/popper/popper-1.16.0.min.js"></script>
+<script src="assets/vendor/bootstrap-4.5.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

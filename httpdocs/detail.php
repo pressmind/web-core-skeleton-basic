@@ -22,12 +22,6 @@ $mediaObject = new MediaObject(intval($_GET['id']), true);
 </head>
 <body>
 <div class="container">
-    <pre>
-        <?php print_r($mediaObject->getLog());?>
-    </pre>
-    <pre>
-        <?php print_r($mediaObject->toStdClass());?>
-    </pre>
     <?php
     //To Render a Media Object, we just need to call the Render function and give the suffix of the render script as parameter
     //In this case the view script with the naming convention <MediaObjectType>_Example.php  (e.g. Reise_Example.php) will be called and rendered.
@@ -36,8 +30,8 @@ $mediaObject = new MediaObject(intval($_GET['id']), true);
 
     ?>
 </div>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="assets/vendor/jquery/jquery-3.5.1.min.js"></script>
+<script src="assets/vendor/popper/popper-1.16.0.min.js"></script>
+<script src="assets/vendor/bootstrap-4.5.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
