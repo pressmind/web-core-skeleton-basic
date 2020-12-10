@@ -1,6 +1,6 @@
 # pressmind® web-core Basic Skeleton Web-Application
 
-## This is  simple skeleton web application using the pressmind SDK intended to give a starting point for creating web applications using the Pressmind PIM-System
+## This is a simple skeleton web application using the pressmind SDK intended to give you a starting point for creating web applications using the pressmind® PIM-System
 
 ##  System Requirements
 * PHP 7.*
@@ -17,10 +17,13 @@
 * a pressmind® License ;-)
 
 ### pressmind® API Credentials
-You need a pressmind® REST API Access. (API Key, User, Password)
+You need a pressmind® REST API Access. (API Key, User, Password)  
 Ask your pressmind® Integration-Manager.
 
 ## Quickstart
+
+This quickstart is aimed at a experienced audience.  
+You should have at least an intermediate knowledge in MySQL, PHP-Programming and Webserver-Administration to get the application running as intended.
 
 ### 1. Installation
 * clone or download the repository 
@@ -88,4 +91,26 @@ DocumentRoot /var/www/web-core-skeleton-basic/httpdocs
         AllowOverride All
 </Directory>
 ```
- 
+
+* for security reasons all application and library files live outside the webservers document_root
+* please make shure that no php open_basedir restrictions prevent php from accessing the folders direct above httpdocs
+
+### 2. Import from pressmind®
+To import data from pressmind® run the script application/cli/import.php  
+
+To first test the import functionality it is a good idea to import a single media object from pressmind®
+```shell script
+# Import single media object (123456 represents a valid media object id in yout pressmind® userspace)
+php import.php mediaobject 123456
+```
+
+Check the logs folder (application/logs) for error messages if something is not working as expected
+
+To do a fullimport (which is recommended after a fresh install add the argument fullimport)
+```shell script
+# Full Import
+php import.php fullimport
+```
+Depending on the amount of data that is stored in pressmind, the full import can last a while.  
+For each media object all descriptive and touristic data will be imported into the database. Additionally all related files and images will be downloaded to the folder httpdocs/assets.
+
