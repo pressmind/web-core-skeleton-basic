@@ -3,6 +3,7 @@
 /vendor
 /application/config.json
 /application/Custom/MediaType/*.php
+!Factory.php
 /application/Custom/Views/*_Example.php
 /application/logs/*
 /application/tmp/*
