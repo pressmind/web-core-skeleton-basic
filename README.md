@@ -5,6 +5,7 @@
 ##  System Requirements
 * PHP 7.*
 * MySQL or MariaDB
+* Composer
 * PHP-Extensions:
     * ext-imagick or ext-gd
     * ext-json
