@@ -51,7 +51,7 @@ if($first_install) {
 
     $config_file = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config.json';
 
-    Writer::write('Writing config to ' . $config_file, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+    echo 'Writing config to ' . $config_file . "\n";
     file_put_contents($config_file, json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 }
 
@@ -100,7 +100,7 @@ if($args[1] != 'only_static') {
 
         foreach ($required_directories as $directory) {
             if (!is_dir($directory)) {
-                mkdir($directory, 0755);
+                mkdir($directory, 0755, true);
                 Writer::write('Directory ' . $directory . ' created', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
             }
         }
