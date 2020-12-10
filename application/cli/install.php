@@ -91,10 +91,10 @@ if($args[1] != 'only_static') {
         $required_directories[] = HelperFunctions::replaceConstantsFromConfig($config['logging']['log_file_path']);
         $required_directories[] = HelperFunctions::replaceConstantsFromConfig($config['tmp_dir']);
         if ($config['file_handling']['storage']['provider'] == 'filesystem') {
-            $required_directories[] = HelperFunctions::buildPathString([BASE_PATH, HelperFunctions::replaceConstantsFromConfig($config['file_handling']['storage']['bucket'])]);
+            $required_directories[] = HelperFunctions::replaceConstantsFromConfig($config['file_handling']['storage']['bucket']);
         }
         if ($config['image_handling']['storage']['provider'] == 'filesystem') {
-            $required_directories[] = HelperFunctions::buildPathString([BASE_PATH, HelperFunctions::replaceConstantsFromConfig($config['image_handling']['storage']['bucket'])]);
+            $required_directories[] = HelperFunctions::replaceConstantsFromConfig($config['image_handling']['storage']['bucket']);
         }
         $required_directories[] = HelperFunctions::buildPathString([HelperFunctions::replaceConstantsFromConfig($config['server']['document_root']), 'docs', 'objecttypes']);
 
