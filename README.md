@@ -25,6 +25,8 @@ Ask your pressmind® Integration-Manager.
 This quickstart is aimed towards an experienced audience.  
 You should have at least an intermediate knowledge in MySQL, PHP-Programming and Webserver-Administration to get the application running as intended.
 
+For a full documentation visit https://pressmind.github.io/web-core/
+
 ### 1. Installation
 * clone or download the repository 
 
@@ -114,3 +116,4 @@ php import.php fullimport
 Depending on the amount of data that is stored in pressmind, the full import can last a while.  
 For each media object all descriptive and touristic data will be imported into the database. Additionally all related files and images will be downloaded to the folder httpdocs/assets.
 
+For a full documentation visit https://pressmind.github.io/web-core/
