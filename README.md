@@ -1,6 +1,6 @@
 # pressmind® web-core Basic Skeleton Web-Application
 
-## This is a simple skeleton web application using the pressmind SDK intended to give you a starting point for creating web applications using the pressmind® PIM-System
+## This is a simple skeleton web application using the pressmind SDK. It is intended to give you a clean starting point for creating web applications or RESTFULL Services using the pressmind® PIM-System
 
 ##  System Requirements
 * PHP 7.*
@@ -22,7 +22,7 @@ Ask your pressmind® Integration-Manager.
 
 ## Quickstart
 
-This quickstart is aimed at a experienced audience.  
+This quickstart is aimed towards an experienced audience.  
 You should have at least an intermediate knowledge in MySQL, PHP-Programming and Webserver-Administration to get the application running as intended.
 
 ### 1. Installation
@@ -33,7 +33,7 @@ Cloning:
 git clone https://github.com/pressmind/web-core-skeleton-basic.git
 ```
 
-when you downloaded the .zip file, extract the sources
+if you downloaded the .zip file, extract the sources
 
 * create a MySQL database
 
