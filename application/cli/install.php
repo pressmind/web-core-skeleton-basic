@@ -3,6 +3,7 @@ namespace Pressmind;
 use Exception;
 use Pressmind\Log\Writer;
 use Pressmind\REST\Client;
+use Pressmind\System\Info;
 
 $first_install = !file_exists(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config.json');
 
@@ -63,11 +64,7 @@ $args[1] = isset($argv[1]) ? $argv[1] : null;
 $namespace = 'Pressmind\ORM\Object';
 
 if($args[1] != 'only_static') {
-
-    require_once __DIR__ . DIRECTORY_SEPARATOR . 'static_models.php';
-
-    /** @var array $models included from ./static_model.php*/
-    foreach ($models as $model) {
+    foreach (Info::STATIC_MODELS as $model) {
         try {
             $model_name = $namespace . $model;
             Writer::write('Creating database table for model: ' . $model_name, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);

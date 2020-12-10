@@ -4,12 +4,12 @@ namespace Pressmind;
 use Exception;
 use Pressmind\ORM\Object\AbstractObject;
 use Pressmind\REST\Client;
+use Pressmind\System\Info;
 
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bootstrap.php';
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'static_models.php';
 
 echo 'Checking static models for integrity'. "\n";
-foreach ($models as $model_name) {
+foreach (Info::STATIC_MODELS as $model_name) {
     $model_name = '\Pressmind\ORM\Object' . $model_name;
     /** @var AbstractObject $object */
     $object = new $model_name();
