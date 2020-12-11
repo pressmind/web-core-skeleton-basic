@@ -29,7 +29,7 @@ For a full documentation visit https://pressmind.github.io/web-core/
 
 ### 1. Installation
 * download the [latest release](https://github.com/pressmind/web-core-skeleton-basic/releases/latest) 
-* extract the sources to a directory on your webserver (for example /vaw/www/vhosts)
+* extract the sources to a directory on your webserver (for example /var/www/vhosts)
 * create a MySQL database
 
 ```shell script
@@ -41,7 +41,7 @@ mysql> GRANT ALL ON pressmind.* TO 'my_database_user'@'localhost' IDENTIFIED BY 
 * on a console move to the base folder 
 
 ```shell script
-cd /vaw/www/vhosts/web-core-skeleton-basic
+cd /var/www/vhosts/web-core-skeleton-basic
 ```
 
 * install composer dependencies
