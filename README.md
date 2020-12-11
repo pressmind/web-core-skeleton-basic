@@ -28,15 +28,8 @@ You should have at least an intermediate knowledge in MySQL, PHP-Programming and
 For a full documentation visit https://pressmind.github.io/web-core/
 
 ### 1. Installation
-* clone or download the repository 
-
-Cloning:
-```shell script
-git clone https://github.com/pressmind/web-core-skeleton-basic.git
-```
-
-if you downloaded the .zip file, extract the sources
-
+* download the [latest release](https://github.com/pressmind/web-core-skeleton-basic/releases/latest) 
+* extract the sources to a directory on your webserver (for example /vaw/www/vhosts)
 * create a MySQL database
 
 ```shell script
@@ -48,7 +41,7 @@ mysql> GRANT ALL ON pressmind.* TO 'my_database_user'@'localhost' IDENTIFIED BY 
 * on a console move to the base folder 
 
 ```shell script
-cd web-core-skeleton-basic
+cd /vaw/www/vhosts/web-core-skeleton-basic
 ```
 
 * install composer dependencies
@@ -102,7 +95,7 @@ To import data from pressmind® run the script application/cli/import.php
 
 To first test the import functionality it is a good idea to import a single media object from pressmind®
 ```shell script
-# Import single media object (123456 represents a valid media object id in yout pressmind® userspace)
+# Import single media object (123456 represents a valid media object id in your pressmind® userspace)
 php import.php mediaobject 123456
 ```
 
