@@ -16,6 +16,9 @@
     * ext-readline
 * a pressmind® License ;-)
 
+It is recommended to install the software on a appropriate operating system. Linux is highly recommended, for developing purposes Mac OS X might work.  
+*A local installation on Microsoft Windows in a system like XAMPP is not supported and thus not recommended. For local development on Windows please consider using a virtual environment like VirtualBox, Windows Subsystem for Linux or Docker*
+
 ### pressmind® API Credentials
 You need a pressmind® REST API Access. (API Key, User, Password)  
 Ask your pressmind® Integration-Manager.
