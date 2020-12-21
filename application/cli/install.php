@@ -2,6 +2,7 @@
 namespace Pressmind;
 use Exception;
 use Pressmind\Log\Writer;
+use Pressmind\ORM\Object\Scheduler\Task;
 use Pressmind\REST\Client;
 use Pressmind\System\Info;
 
@@ -104,6 +105,38 @@ if($args[1] != 'only_static') {
     }
 
     try {
+        Writer::write('Installing scheduler tasks', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+        $existing_scheduled_tasks = Task::listAll();
+        foreach ($existing_scheduled_tasks as $existing_scheduled_task) {
+            Writer::write('Deleting existing task "' . $existing_scheduled_task->name . '"', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+            $existing_scheduled_task->delete(true);
+        }
+        foreach ($config['scheduled_tasks'] as $config_scheduled_task) {
+            $scheduled_task = new Task();
+            $scheduled_task->name = $config_scheduled_task['name'];
+            $scheduled_task->description = isset($config_scheduled_task['description']) ? $config_scheduled_task['description'] : null;
+            $scheduled_task->class_name = $config_scheduled_task['class_name'];
+            $scheduled_task->schedule = json_encode($config_scheduled_task['schedule']);
+            $scheduled_task->last_run = new \DateTime();
+            $scheduled_task->active = true;
+            $scheduled_task->running = false;
+            $scheduled_task->error_count = 0;
+            $scheduled_task->methods = [];
+            foreach ($config_scheduled_task['methods'] as $config_scheduled_task_method) {
+                $task_method = new Task\Method();
+                $task_method->name = $config_scheduled_task_method['method'];
+                $task_method->parameters = json_encode($config_scheduled_task_method['parameters']);
+                $task_method->position = intval($config_scheduled_task_method['position']);
+                $scheduled_task->methods[] = $task_method;
+            }
+            $scheduled_task->create();
+            Writer::write('New task "' . $scheduled_task->name . '" created', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+        }
+    } catch (Exception $e) {
+        Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
+    }
+
+    try {
         Writer::write('Requesting and parsing information on media object types ...', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
         $importer = new Import();
         $ids = [];
@@ -135,7 +168,10 @@ if($args[1] != 'only_static') {
         Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
     }
 }
-
+echo "\n";
+Writer::write('It is recommended to install a cronjob on your system. Add the following line to you crontab:', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+Writer::write('*/1 * * * * php ' . APPLICATION_PATH . '/cli/cron.php > /dev/null 2>&1', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+echo "\n";
 if($args[1] == 'with_static' || $args[1] == 'only_static') {
     try {
         Writer::write('Dumping static data, this may take a while ...', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
@@ -153,8 +189,9 @@ if($args[1] == 'with_static' || $args[1] == 'only_static') {
         Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
     }
 } else {
-    Writer::write('Some additional static data has not been dumped yet. Dump static data by calling "install.php with_static" or "install.php only_static"', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+    echo "\n";
+    Writer::write('Some optional static data has not been dumped yet. If this data is needed (you will know, if) dump static data by calling "install.php with_static" or "install.php only_static"', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
     Writer::write('You can also dump the data by hand. Data resides here: ' . HelperFunctions::buildPathString([dirname(__DIR__), 'src', 'data']), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
 }
 
-echo '!!!ATTENTION: Please have a look at the CHANGES.md file, there might be important information on breaking changes!!!!' . "\n";
+// echo '!!!ATTENTION: Please have a look at the CHANGES.md file, there might be important information on breaking changes!!!!' . "\n";
