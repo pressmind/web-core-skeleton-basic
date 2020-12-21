@@ -89,8 +89,6 @@ try {
     echo $e->getMessage();
 }
 
-echo '!!!ATTENTION: Please have a look at the CHANGES.md file, there might be important information on breaking changes!!!!' . "\n";
-
 function modifyDatabaseTableColumn($tableName, $columnName, $type) {
     $sql = 'ALTER TABLE ' . $tableName . ' MODIFY ' . $columnName . ' ' . $type . ' NULL';
     $db = Registry::getInstance()->get('db');
