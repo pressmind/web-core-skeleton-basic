@@ -10,3 +10,4 @@
 /httpdocs/assets/images/*
 /httpdocs/assets/files/*
 /httpdocs/docs/objecttypes/*
+composer.lock
