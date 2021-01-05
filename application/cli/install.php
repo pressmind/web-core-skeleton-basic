@@ -147,7 +147,7 @@ if($args[1] != 'only_static') {
         $media_types_allowed_visibilities = [];
         foreach ($response->result as $item) {
             Writer::write('Parsing media object type ' . $item->type_name, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
-            $media_types[$item->id_type] = $item->type_name;
+            $media_types[$item->id_type] = ucfirst(HelperFunctions::human_to_machine($item->type_name));
             $ids[] = $item->id_type;
             $pretty_url = [
                 'prefix' => '/' . HelperFunctions::human_to_machine($item->type_name) . '/',
