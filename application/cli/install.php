@@ -65,25 +65,10 @@ $args[1] = isset($argv[1]) ? $argv[1] : null;
 $namespace = 'Pressmind\ORM\Object';
 
 if($args[1] != 'only_static') {
-    foreach (Info::STATIC_MODELS as $model) {
-        try {
-            $model_name = $namespace . $model;
-            Writer::write('Creating database table for model: ' . $model_name, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
-            $scaffolder = new DB\Scaffolder\Mysql(new $model_name());
-            $scaffolder->run($args[1] === 'drop_tables');
-            foreach ($scaffolder->getLog() as $scaffolder_log) {
-                Writer::write($scaffolder_log, Writer::OUTPUT_FILE, 'install', Writer::TYPE_INFO);
-            }
-        } catch (Exception $e) {
-            Writer::write($model_name, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
-            Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
-        }
-    }
-
     $config = Registry::getInstance()->get('config');
 
     if($first_install) {
-        Writer::write('Creating required directories', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+        Writer::write('Creating required directories', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
         $required_directories = [];
         $required_directories[] = HelperFunctions::buildPathString([APPLICATION_PATH, 'Custom', 'MediaType']);
         $required_directories[] = HelperFunctions::replaceConstantsFromConfig($config['logging']['log_file_path']);
@@ -98,9 +83,24 @@ if($args[1] != 'only_static') {
 
         foreach ($required_directories as $directory) {
             if (!is_dir($directory)) {
-                mkdir($directory, 0755, true);
-                Writer::write('Directory ' . $directory . ' created', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+                mkdir($directory, 0775, true);
+                Writer::write('Directory ' . $directory . ' created', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
             }
+        }
+    }
+
+    foreach (Info::STATIC_MODELS as $model) {
+        try {
+            $model_name = $namespace . $model;
+            Writer::write('Creating database table for model: ' . $model_name, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+            $scaffolder = new DB\Scaffolder\Mysql(new $model_name());
+            $scaffolder->run($args[1] === 'drop_tables');
+            foreach ($scaffolder->getLog() as $scaffolder_log) {
+                Writer::write($scaffolder_log, Writer::OUTPUT_FILE, 'install', Writer::TYPE_INFO);
+            }
+        } catch (Exception $e) {
+            Writer::write($model_name, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
+            Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
         }
     }
 
