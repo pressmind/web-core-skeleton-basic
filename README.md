@@ -45,8 +45,9 @@ For a full documentation visit https://pressmind.github.io/web-core/
 
 ```shell script
 mysql -u root -p;
-mysql> CREATE DATABASE pressmind;
-mysql> GRANT ALL ON pressmind.* TO 'my_database_user'@'localhost' IDENTIFIED BY 'my_database_password' WITH GRANT OPTION;
+mysql> CREATE DATABASE my_new_database;
+mysql> CREATE USER 'my_database_user'@'localhost' IDENTIFIED BY 'my_database_password';
+mysql> GRANT ALL ON my_new_database.* TO 'my_database_user'@'localhost' WITH GRANT OPTION;
 ``` 
 
 * on a console move to the base folder 
@@ -61,7 +62,7 @@ cd /var/www/vhosts/web-core-skeleton-basic
 composer install
 ```
 
-* move to the application\cli directory and run the install.php script
+* move to the application/cli directory and run the install.php script
 
 ```shell script
 cd web-core-skeleton-basic/application/cli
@@ -89,17 +90,20 @@ Enter Pressmind API Password:
 
 ```apacheconfig
 #Example Apache2 Configuration
-
-ServerName web-core-skeleton-basic.local
-ServerAdmin webmaster@localhost
-DocumentRoot /var/www/web-core-skeleton-basic/httpdocs
-<Directory "/var/www/web-core-skeleton-basic/httpdocs">
+<VirtualHost *:80>
+    ServerName web-core-skeleton-basic.local
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/vhosts/web-core-skeleton-basic/httpdocs
+    <Directory "/var/www/vhosts/web-core-skeleton-basic/httpdocs">
+        Order allow, deny
+        Allow from all
         AllowOverride All
-</Directory>
+    </Directory>
+</VirtualHost>
 ```
 
 * for security reasons all application and library files live outside the webservers document_root
-* please make shure that no php open_basedir restrictions prevent php from accessing the folders direct above httpdocs
+* please make shure that no php open_basedir restrictions prevent php from accessing the folders directly above httpdocs
 
 ### 2. Import from pressmind®
 To import data from pressmind® run the script application/cli/import.php  
@@ -110,9 +114,13 @@ To first test the import functionality it is a good idea to import a single medi
 php import.php mediaobject 123456
 ```
 
-Check the logs folder (application/logs) for error messages if something is not working as expected
+Point your browser to the detail.php example script of your virtual host with an id-parameter:   
+http://web-core-skeleton-basic.local/detail.php?id=123456  
+You now should see the rendered output of the currently imported media object.
 
-To do a fullimport (which is recommended after a fresh install add the argument fullimport)
+Check the logs folder (application/logs) for error messages if something is not working as expected.
+
+To do a fullimport (which is recommended after a fresh install) add the argument fullimport
 ```shell script
 # Full Import
 php import.php fullimport
