@@ -2,6 +2,7 @@
 namespace Pressmind;
 
 use Exception;
+use Pressmind\Import\DataView;
 use Pressmind\Log\Writer;
 use Pressmind\ORM\Object\MediaObject;
 
@@ -26,6 +27,10 @@ switch ($args[1]) {
         } finally {
             $importer->postImport();
         }
+        break;
+    case 'dataview':
+        $importer = new DataView();
+        $importer->import();
         break;
     case 'mediaobject':
         if(!empty($args[2])) {
