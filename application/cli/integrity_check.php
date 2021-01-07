@@ -29,10 +29,10 @@ foreach (Info::STATIC_MODELS as $model_name) {
                         modifyDatabaseTableNull($object->getDbTableName(), $difference['column_name'], $difference['column_type'], $difference['column_null']);
                         break;
                     case 'alter_column_type':
-                        modifyDatabaseTableColumn($object->getDbTableName(), $difference['column_name'], $difference['column_type']);
+                        modifyDatabaseTableColumn($object->getDbTableName(), $difference['column_name'], $difference['column_type'], $difference['column_null']);
                         break;
                     case 'create_column':
-                        addDatabaseTableColumn($object->getDbTableName(), $difference['column_name'], $difference['column_type']);
+                        addDatabaseTableColumn($object->getDbTableName(), $difference['column_name'], $difference['column_type'], $difference['column_null']);
                         break;
                 }
             }
@@ -89,15 +89,15 @@ try {
     echo $e->getMessage();
 }
 
-function modifyDatabaseTableColumn($tableName, $columnName, $type) {
-    $sql = 'ALTER TABLE ' . $tableName . ' MODIFY ' . $columnName . ' ' . $type . ' NULL';
+function modifyDatabaseTableColumn($tableName, $columnName, $type, $is_null = 'NULL') {
+    $sql = 'ALTER TABLE ' . $tableName . ' MODIFY ' . $columnName . ' ' . $type . ' ' . $is_null;
     $db = Registry::getInstance()->get('db');
     echo $sql . "\n";
     $db->execute($sql);
 }
 
-function addDatabaseTableColumn($tableName, $columnName, $type) {
-    $sql = 'ALTER TABLE ' . $tableName . ' ADD ' . $columnName . ' ' . $type . ' NULL';
+function addDatabaseTableColumn($tableName, $columnName, $type, $is_null = 'NULL') {
+    $sql = 'ALTER TABLE ' . $tableName . ' ADD ' . $columnName . ' ' . $type . ' ' . $is_null;
     $db = Registry::getInstance()->get('db');
     echo $sql . "\n";
     $db->execute($sql);
