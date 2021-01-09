@@ -9,14 +9,8 @@
             "email": "m.graute@team-braeutigam.de"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/pressmind/sdk.git"
-        }
-    ],
     "require": {
-        "pressmind/sdk": "dev-master#v1.1.5",
+        "pressmind/sdk": "dev-master#v1.1.6",
         "ext-json": "*",
         "ext-readline": "*"
     }
