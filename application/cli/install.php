@@ -92,23 +92,23 @@ if($args[1] != 'only_static') {
     foreach (Info::STATIC_MODELS as $model) {
         try {
             $model_name = $namespace . $model;
-            Writer::write('Creating database table for model: ' . $model_name, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+            Writer::write('Creating database table for model: ' . $model_name, Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
             $scaffolder = new DB\Scaffolder\Mysql(new $model_name());
             $scaffolder->run($args[1] === 'drop_tables');
-            foreach ($scaffolder->getLog() as $scaffolder_log) {
+            /*foreach ($scaffolder->getLog() as $scaffolder_log) {
                 Writer::write($scaffolder_log, Writer::OUTPUT_FILE, 'install', Writer::TYPE_INFO);
-            }
+            }*/
         } catch (Exception $e) {
-            Writer::write($model_name, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
-            Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
+            Writer::write($model_name, Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_ERROR);
+            Writer::write($e->getMessage(), Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_ERROR);
         }
     }
 
     try {
-        Writer::write('Installing scheduler tasks', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+        Writer::write('Installing scheduler tasks', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
         $existing_scheduled_tasks = Task::listAll();
         foreach ($existing_scheduled_tasks as $existing_scheduled_task) {
-            Writer::write('Deleting existing task "' . $existing_scheduled_task->name . '"', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+            Writer::write('Deleting existing task "' . $existing_scheduled_task->name . '"', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
             $existing_scheduled_task->delete(true);
         }
         foreach ($config['scheduled_tasks'] as $config_scheduled_task) {
@@ -130,14 +130,14 @@ if($args[1] != 'only_static') {
                 $scheduled_task->methods[] = $task_method;
             }
             $scheduled_task->create();
-            Writer::write('New task "' . $scheduled_task->name . '" created', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+            Writer::write('New task "' . $scheduled_task->name . '" created', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
         }
     } catch (Exception $e) {
-        Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
+        Writer::write($e->getMessage(), Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_ERROR);
     }
 
     try {
-        Writer::write('Requesting and parsing information on media object types ...', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+        Writer::write('Requesting and parsing information on media object types ...', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
         $importer = new Import();
         $ids = [];
         $client = new Client();
@@ -146,7 +146,7 @@ if($args[1] != 'only_static') {
         $media_types_pretty_url = [];
         $media_types_allowed_visibilities = [];
         foreach ($response->result as $item) {
-            Writer::write('Parsing media object type ' . $item->type_name, Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+            Writer::write('Parsing media object type ' . $item->type_name, Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
             $media_types[$item->id_type] = ucfirst(HelperFunctions::human_to_machine($item->type_name));
             $ids[] = $item->id_type;
             $pretty_url = [
@@ -165,33 +165,31 @@ if($args[1] != 'only_static') {
         Registry::getInstance()->add('config', $config);
         $importer->importMediaObjectTypes($ids);
     } catch (Exception $e) {
-        Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
+        Writer::write($e->getMessage(), Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_ERROR);
     }
 }
 echo "\n";
-Writer::write('It is recommended to install a cronjob on your system. Add the following line to you crontab:', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
-Writer::write('*/1 * * * * php ' . APPLICATION_PATH . '/cli/cron.php > /dev/null 2>&1', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+Writer::write('It is recommended to install a cronjob on your system. Add the following line to you crontab:', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
+Writer::write('*/1 * * * * php ' . APPLICATION_PATH . '/cli/cron.php > /dev/null 2>&1', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
 echo "\n";
 if($args[1] == 'with_static' || $args[1] == 'only_static') {
     try {
-        Writer::write('Dumping static data, this may take a while ...', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+        Writer::write('Dumping static data, this may take a while ...', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
         Writer::write('Data will be dumped using "gunzip" and "mysql" with "shell_exec". Dump data in ' . HelperFunctions::buildPathString([dirname(__DIR__), 'src', 'data']) . ' by hand if shell_exec fails', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
         $config = Registry::getInstance()->get('config');
-        Writer::write('Dumping data for pmt2core_airlines', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+        Writer::write('Dumping data for pmt2core_airlines', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
         shell_exec("gunzip < " . HelperFunctions::buildPathString([dirname(__DIR__), 'src', 'data', 'pmt2core_airlines.sql.gz']) . " | mysql --host=" . $config['database']['host'] . " --user=" . $config['database']['username'] . " --password=" . $config['database']['password'] . " " . $config['database']['dbname']);
-        Writer::write('Dumping data for pmt2core_airports', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+        Writer::write('Dumping data for pmt2core_airports', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
         shell_exec("gunzip < " . HelperFunctions::buildPathString([dirname(__DIR__), 'src', 'data', 'pmt2core_airports.sql.gz']) . " | mysql --host=" . $config['database']['host'] . " --user=" . $config['database']['username'] . " --password=" . $config['database']['password'] . " " . $config['database']['dbname']);
-        Writer::write('Dumping data for pmt2core_banks', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+        Writer::write('Dumping data for pmt2core_banks', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
         shell_exec("gunzip < " . HelperFunctions::buildPathString([dirname(__DIR__), 'src', 'data', 'pmt2core_banks.sql.gz']) . " | mysql --host=" . $config['database']['host'] . " --user=" . $config['database']['username'] . " --password=" . $config['database']['password'] . " " . $config['database']['dbname']);
-        Writer::write('Dumping data for pmt2core_geozip', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
+        Writer::write('Dumping data for pmt2core_geozip', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
         shell_exec("gunzip < " . HelperFunctions::buildPathString([dirname(__DIR__), 'src', 'data', 'pmt2core_geozip.sql.gz']) . " | mysql --host=" . $config['database']['host'] . " --user=" . $config['database']['username'] . " --password=" . $config['database']['password'] . " " . $config['database']['dbname']);
     } catch (Exception $e) {
-        Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_ERROR);
+        Writer::write($e->getMessage(), Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_ERROR);
     }
 } else {
     echo "\n";
     Writer::write('Some optional static data has not been dumped yet. If this data is needed (you will know, if) dump static data by calling "install.php with_static" or "install.php only_static"', Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
     Writer::write('You can also dump the data by hand. Data resides here: ' . HelperFunctions::buildPathString([dirname(__DIR__), 'src', 'data']), Writer::OUTPUT_BOTH, 'install', Writer::TYPE_INFO);
 }
-
-// echo '!!!ATTENTION: Please have a look at the CHANGES.md file, there might be important information on breaking changes!!!!' . "\n";
