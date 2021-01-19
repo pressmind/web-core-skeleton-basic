@@ -13,7 +13,7 @@ if($first_install) {
         . DIRECTORY_SEPARATOR
         . 'vendor'
         . DIRECTORY_SEPARATOR
-        . 'Pressmind'
+        . 'pressmind'
         . DIRECTORY_SEPARATOR
         . 'sdk';
     if(!is_dir($sdk_directory)) {
