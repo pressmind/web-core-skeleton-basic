@@ -33,33 +33,33 @@ Writer::write('Processing ' . count($result) . ' images', WRITER::OUTPUT_FILE, '
 foreach ($result as $image) {
     $binary_image = null;
     Writer::write('Processing image ID:' . $image->getId(), WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
-    Writer::write('Downloading image from ' . $image->tmp_url, WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
+    Writer::write('ID ' . $image->getId() . ': Downloading image from ' . $image->tmp_url, WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
     try {
         $binary_image = $image->downloadOriginal();
     } catch (Exception $e) {
-        Writer::write($e->getMessage(), WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_ERROR);
+        Writer::write('ID ' . $image->getId() . ': ' . $e->getMessage(), WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_ERROR);
         continue;
     }
     $imageProcessor = Factory::create($config['image_handling']['processor']['adapter']);
-    Writer::write('Creating derivatives', WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
+    Writer::write('ID ' . $image->getId() . ': Creating derivatives', WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
     foreach ($config['image_handling']['processor']['derivatives'] as $derivative_name => $derivative_config) {
         try {
             $processor_config = Config::create($derivative_name, $derivative_config);
             $image->createDerivative($processor_config, $imageProcessor, $binary_image);
-            Writer::write('Processing sections', WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
+            Writer::write('ID ' . $image->getId() . ': Processing sections', WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
         } catch (Exception $e) {
-            Writer::write($e->getMessage(), WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_ERROR);
+            Writer::write('ID ' . $image->getId() . ': ' . $e->getMessage(), WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_ERROR);
             continue;
         }
         foreach ($image->sections as $section) {
-            Writer::write('Downloading section image from ' . $section->tmp_url, WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
+            Writer::write('ID ' . $image->getId() . ': Downloading section image from ' . $section->tmp_url, WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
             try {
                 $binary_section_file = $section->downloadOriginal();
-                Writer::write('Creating section image derivatives', WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
+                Writer::write('ID ' . $image->getId() . ': Creating section image derivatives', WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
                 $section->createDerivative($processor_config, $imageProcessor, $binary_section_file);
                 unset($binary_section_file);
             } catch (Exception $e) {
-                Writer::write($e->getMessage(), WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_ERROR);
+                Writer::write('ID ' . $image->getId() . ': ' . $e->getMessage(), WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_ERROR);
                 continue;
             }
         }
