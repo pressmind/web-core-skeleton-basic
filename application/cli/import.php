@@ -15,8 +15,13 @@ switch ($args[1]) {
     case 'fullimport':
         $importer = new Import('fullimport');
         Writer::write('Importing all media objects', Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
+        $object_type = null;
+        if(isset($args[2]) && is_numeric($args[2])) {
+            $object_type = [$args[2]];
+            Writer::write('Import limited to object type IDs: ' . implode(',', $object_type), Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
+        }
         try {
-            $importer->import();
+            $importer->import(null, $object_type);
             if($importer->hasErrors()) {
                 echo ("WARNING: Import threw errors:\n" . implode("\n", $importer->getErrors())) . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
             }
@@ -131,11 +136,14 @@ switch ($args[1]) {
             echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
         }
         break;
+    case 'insurances':
+        $importer = new Import('insurances');
+        break;
     case 'help':
     case '--help':
     case '-h':
     default:
-        $helptext = "usage: import.php [fullimport | mediaobject | itinerary | objecttypes] [<single id or commaseparated list of ids>]\n";
+        $helptext = "usage: import.php [fullimport | mediaobject | itinerary | objecttypes | insurances | depublish | destroy | remove_orphans] [<single id or commaseparated list of ids>]\n";
         $helptext .= "Example usages:\n";
         $helptext .= "php import.php fullimport\n";
         $helptext .= "php import.php mediaobject 123456, 78901234 <single or multiple ids allowed>\n";
