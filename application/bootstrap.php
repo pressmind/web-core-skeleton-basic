@@ -45,7 +45,7 @@ define('ENV', 'development');
  * Import the Pressmind Autoloader
  * You can omit this if your using composers auto loading
  */
-require_once BASE_PATH . '/vendor/Pressmind/sdk/Autoloader.php';
+require_once BASE_PATH . '/vendor/pressmind/sdk/Autoloader.php';
 \Pressmind\Autoloader::register();
 
 /**
