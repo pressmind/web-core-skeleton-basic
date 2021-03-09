@@ -34,6 +34,12 @@ foreach (Info::STATIC_MODELS as $model_name) {
                     case 'create_column':
                         addDatabaseTableColumn($object->getDbTableName(), $difference['column_name'], $difference['column_type'], $difference['column_null']);
                         break;
+                    case 'remove_auto_increment':
+                        removeAutoIncrement($object->getDbTableName(), $difference['column_name'], $difference['column_type'], $difference['column_null']);
+                        break;
+                    case 'set_auto_increment':
+                        addAutoIncrement($object->getDbTableName(), $difference['column_name'], $difference['column_type'], $difference['column_null']);
+                        break;
                 }
             }
         }
@@ -148,6 +154,20 @@ function addDatabaseTableColumn($tableName, $columnName, $type, $is_null = 'NULL
 }
 
 function modifyDatabaseTableNull($tableName, $columnName, $type, $is_null) {
+    $sql = 'ALTER TABLE ' . $tableName . ' MODIFY ' . $columnName . ' ' . $type . ' ' . $is_null;
+    $db = Registry::getInstance()->get('db');
+    echo $sql . "\n";
+    $db->execute($sql);
+}
+
+function addAutoIncrement($tableName, $columnName, $type, $is_null) {
+    $sql = 'ALTER TABLE ' . $tableName . ' MODIFY ' . $columnName . ' ' . $type . ' ' . $is_null . ' auto_increment';
+    $db = Registry::getInstance()->get('db');
+    echo $sql . "\n";
+    $db->execute($sql);
+}
+
+function removeAutoIncrement($tableName, $columnName, $type, $is_null) {
     $sql = 'ALTER TABLE ' . $tableName . ' MODIFY ' . $columnName . ' ' . $type . ' ' . $is_null;
     $db = Registry::getInstance()->get('db');
     echo $sql . "\n";
