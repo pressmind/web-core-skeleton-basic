@@ -12,8 +12,7 @@ class Factory {
      */
     public static function create($pMediaTypeName, $pReadRelations = false) {
         $class_name = 'Custom\MediaType\\' . $pMediaTypeName;
-        $object = new $class_name(null, $pReadRelations);
-        return $object;
+        return new $class_name(null, $pReadRelations);
     }
 
     /**
@@ -32,7 +31,6 @@ class Factory {
         $class_name = 'Custom\MediaType\\' . $media_type_name;
         $object = new $class_name(null);
         $object->fromCache($data);
-        //print_r($object->toStdClass());
         return $object;
     }
 }
