@@ -77,6 +77,9 @@ try {
                         case 'create_column':
                             addDatabaseTableColumn('objectdata_' . $media_type_definition->id, $difference['column_name'], $difference['column_type']);
                             break;
+                        case 'drop_column':
+                            dropColumn('objectdata_' . $media_type_definition->id, $difference['column_name']);
+                            break;
                     }
                 }
                 $line2 = readline("Apply Changes to PHP file? [y for yes, any for no]: ");
@@ -169,6 +172,13 @@ function addAutoIncrement($tableName, $columnName, $type, $is_null) {
 
 function removeAutoIncrement($tableName, $columnName, $type, $is_null) {
     $sql = 'ALTER TABLE ' . $tableName . ' MODIFY ' . $columnName . ' ' . $type . ' ' . $is_null;
+    $db = Registry::getInstance()->get('db');
+    echo $sql . "\n";
+    $db->execute($sql);
+}
+
+function dropColumn($tableName, $columnName) {
+    $sql = 'ALTER TABLE ' . $tableName . ' DROP ' . $columnName;
     $db = Registry::getInstance()->get('db');
     echo $sql . "\n";
     $db->execute($sql);
