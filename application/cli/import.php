@@ -23,12 +23,12 @@ switch ($args[1]) {
         try {
             $importer->import(null, $object_type);
             if($importer->hasErrors()) {
-                echo ("WARNING: Import threw errors:\n" . implode("\n", $importer->getErrors())) . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
+                echo ("WARNING: Import threw errors:\n" . implode("\n", $importer->getErrors())) . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
             }
             Writer::write('Import done.', Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
         } catch(Exception $e) {
             Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'import', Writer::TYPE_ERROR);
-            echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
+            echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
         } finally {
             $importer->postImport();
         }
@@ -47,11 +47,11 @@ switch ($args[1]) {
                 Writer::write('Import done.', Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
                 $importer->postImport();
                 if($importer->hasErrors()) {
-                    echo ("WARNING: Import threw errors:\n" . implode("\n", $importer->getErrors())) . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_errors.log for details\n";
+                    echo ("WARNING: Import threw errors:\n" . implode("\n", $importer->getErrors())) . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_errors.log for details\n";
                 }
             } catch(Exception $e) {
                 Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'import', Writer::TYPE_ERROR);
-                echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
+                echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
             }
         } else {
             echo "Missing mediaobject id(s)";
@@ -68,7 +68,7 @@ switch ($args[1]) {
                 }
             } catch (Exception $e) {
                 Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'import', Writer::TYPE_ERROR);
-                echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
+                echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
             }
         } else {
             echo "Missing mediaobject id(s)";
@@ -83,11 +83,11 @@ switch ($args[1]) {
                 $importer->importMediaObjectTypes($ids);
                 Writer::write('Import done.', Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
                 if($importer->hasErrors()) {
-                    echo ("WARNING: Import threw errors:\n" . implode("\n", $importer->getErrors())) . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
+                    echo ("WARNING: Import threw errors:\n" . implode("\n", $importer->getErrors())) . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
                 }
             } catch(Exception $e) {
                 Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'import', Writer::TYPE_ERROR);
-                echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
+                echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
             }
         } else {
             echo "Missing objecttype id(s)";
@@ -105,7 +105,7 @@ switch ($args[1]) {
                     Writer::write('Mediaobject ' . $id . ' successfully depublished (visibility set to 10/nobody)', Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
                 } catch (Exception $e) {
                     Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'import', Writer::TYPE_ERROR);
-                    echo "WARNING: Depublish for id " . $id . "  failed:\n" . $e->getMessage() . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
+                    echo "WARNING: Depublish for id " . $id . "  failed:\n" . $e->getMessage() . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
                 }
             }
         }
@@ -121,7 +121,7 @@ switch ($args[1]) {
                     Writer::write('Mediaobject ' . $id . ' successfully destroyed', Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
                 } catch (Exception $e) {
                     Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'import', Writer::TYPE_ERROR);
-                    echo "WARNING: Destruction for mediaobject " . $id . "  failed:\n" . $e->getMessage() . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
+                    echo "WARNING: Destruction for mediaobject " . $id . "  failed:\n" . $e->getMessage() . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
                 }
             }
         }
@@ -133,7 +133,7 @@ switch ($args[1]) {
             $importer->removeOrphans();
         } catch(Exception $e) {
             Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'import', Writer::TYPE_ERROR);
-            echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSEE " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
+            echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
         }
         break;
     case 'insurances':
