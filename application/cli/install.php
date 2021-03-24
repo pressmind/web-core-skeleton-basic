@@ -6,6 +6,17 @@ use Pressmind\ORM\Object\Scheduler\Task;
 use Pressmind\REST\Client;
 use Pressmind\System\Info;
 
+$no_update = false;
+
+$args = $argv;
+$args[1] = isset($argv[1]) ? $argv[1] : null;
+
+switch ($args[1]) {
+    case 'no_update':
+        $no_update = true;
+        break;
+}
+
 $first_install = !file_exists(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config.json');
 
 if($first_install) {
@@ -59,9 +70,6 @@ if($first_install) {
 
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-$args = $argv;
-$args[1] = isset($argv[1]) ? $argv[1] : null;
-
 $namespace = 'Pressmind\ORM\Object';
 
 if($args[1] != 'only_static') {
@@ -103,39 +111,39 @@ if($args[1] != 'only_static') {
             Writer::write($e->getMessage(), Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_ERROR);
         }
     }
-
-    try {
-        Writer::write('Installing scheduler tasks', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
-        $existing_scheduled_tasks = Task::listAll();
-        foreach ($existing_scheduled_tasks as $existing_scheduled_task) {
-            Writer::write('Deleting existing task "' . $existing_scheduled_task->name . '"', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
-            $existing_scheduled_task->delete(true);
-        }
-        foreach ($config['scheduled_tasks'] as $config_scheduled_task) {
-            $scheduled_task = new Task();
-            $scheduled_task->name = $config_scheduled_task['name'];
-            $scheduled_task->description = isset($config_scheduled_task['description']) ? $config_scheduled_task['description'] : null;
-            $scheduled_task->class_name = $config_scheduled_task['class_name'];
-            $scheduled_task->schedule = json_encode($config_scheduled_task['schedule']);
-            $scheduled_task->last_run = new \DateTime();
-            $scheduled_task->active = true;
-            $scheduled_task->running = false;
-            $scheduled_task->error_count = 0;
-            $scheduled_task->methods = [];
-            foreach ($config_scheduled_task['methods'] as $config_scheduled_task_method) {
-                $task_method = new Task\Method();
-                $task_method->name = $config_scheduled_task_method['method'];
-                $task_method->parameters = json_encode($config_scheduled_task_method['parameters']);
-                $task_method->position = intval($config_scheduled_task_method['position']);
-                $scheduled_task->methods[] = $task_method;
+    if($no_update == false) {
+        try {
+            Writer::write('Installing scheduler tasks', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
+            $existing_scheduled_tasks = Task::listAll();
+            foreach ($existing_scheduled_tasks as $existing_scheduled_task) {
+                Writer::write('Deleting existing task "' . $existing_scheduled_task->name . '"', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
+                $existing_scheduled_task->delete(true);
             }
-            $scheduled_task->create();
-            Writer::write('New task "' . $scheduled_task->name . '" created', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
+            foreach ($config['scheduled_tasks'] as $config_scheduled_task) {
+                $scheduled_task = new Task();
+                $scheduled_task->name = $config_scheduled_task['name'];
+                $scheduled_task->description = isset($config_scheduled_task['description']) ? $config_scheduled_task['description'] : null;
+                $scheduled_task->class_name = $config_scheduled_task['class_name'];
+                $scheduled_task->schedule = json_encode($config_scheduled_task['schedule']);
+                $scheduled_task->last_run = new \DateTime();
+                $scheduled_task->active = true;
+                $scheduled_task->running = false;
+                $scheduled_task->error_count = 0;
+                $scheduled_task->methods = [];
+                foreach ($config_scheduled_task['methods'] as $config_scheduled_task_method) {
+                    $task_method = new Task\Method();
+                    $task_method->name = $config_scheduled_task_method['method'];
+                    $task_method->parameters = json_encode($config_scheduled_task_method['parameters']);
+                    $task_method->position = intval($config_scheduled_task_method['position']);
+                    $scheduled_task->methods[] = $task_method;
+                }
+                $scheduled_task->create();
+                Writer::write('New task "' . $scheduled_task->name . '" created', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
+            }
+        } catch (Exception $e) {
+            Writer::write($e->getMessage(), Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_ERROR);
         }
-    } catch (Exception $e) {
-        Writer::write($e->getMessage(), Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_ERROR);
     }
-
     try {
         Writer::write('Requesting and parsing information on media object types ...', Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
         $importer = new Import();
@@ -145,25 +153,28 @@ if($args[1] != 'only_static') {
         $media_types = [];
         $media_types_pretty_url = [];
         $media_types_allowed_visibilities = [];
-        foreach ($response->result as $item) {
-            Writer::write('Parsing media object type ' . $item->type_name, Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
-            $media_types[$item->id_type] = ucfirst(HelperFunctions::human_to_machine($item->type_name));
-            $ids[] = $item->id_type;
-            $pretty_url = [
-                'prefix' => '/' . HelperFunctions::human_to_machine($item->type_name) . '/',
-                'field' => ['name' => 'name'],
-                'strategy' => 'none',
-                'suffix' => '/'
-            ];
-            $media_types_pretty_url[$item->id_type] = $pretty_url;
-            $media_types_allowed_visibilities[$item->id_type] = [30];
+        if($no_update == false) {
+            foreach ($response->result as $item) {
+                Writer::write('Parsing media object type ' . $item->type_name, Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
+                $media_types[$item->id_type] = ucfirst(HelperFunctions::human_to_machine($item->type_name));
+                $ids[] = $item->id_type;
+                $pretty_url = [
+                    'prefix' => '/' . HelperFunctions::human_to_machine($item->type_name) . '/',
+                    'separator' => '-',
+                    'fields' => ['name'],
+                    'strategy' => 'none',
+                    'suffix' => '/'
+                ];
+                $media_types_pretty_url[$item->id_type] = $pretty_url;
+                $media_types_allowed_visibilities[$item->id_type] = [30];
+            }
+            $config['data']['media_types'] = $media_types;
+            $config['data']['media_types_pretty_url'] = $media_types_pretty_url;
+            $config['data']['media_types_allowed_visibilities'] = $media_types_allowed_visibilities;
+            Registry::getInstance()->get('config_adapter')->write($config);
+            Registry::getInstance()->add('config', $config);
+            $importer->importMediaObjectTypes($ids);
         }
-        $config['data']['media_types'] = $media_types;
-        $config['data']['media_types_pretty_url'] = $media_types_pretty_url;
-        $config['data']['media_types_allowed_visibilities'] = $media_types_allowed_visibilities;
-        Registry::getInstance()->get('config_adapter')->write($config);
-        Registry::getInstance()->add('config', $config);
-        $importer->importMediaObjectTypes($ids);
     } catch (Exception $e) {
         Writer::write($e->getMessage(), Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_ERROR);
     }
