@@ -2,25 +2,25 @@
 The pressmind sdk has the following search features:
 
 Search conditions
-* Search all
-* Search by media object type
-* Search by term in fulltext index
-* Search by price range
-* Search by departure date in date range
-* Search by duration
-* Search by transport type
-* Search by visibility
-* Search by state
-* Search by valid from, valid to
-* Search by pool
-* Search by brand
-* Search by category tree items
+* [Search all](#search-all)
+* [Search by media object type](#search-by-media-object-type)
+* [Search by term in fulltext index](#search-by-term-in-fulltext-index)
+* [Search by price range](#search-by-price-range)
+* [Search by departure date in date range](#search-by-departure-date-in-date-range)
+* [Search by duration](#search-by-duration)
+* [Search by transport type](#search-by-transport-type)
+* [Search by visibility](##search-by-media-object-visibility)
+* [Search by state](#search-by-state)
+* [Search by valid from, valid to](#search-by-valid-from-valid-to)
+* [Search by pool](#search-by-pool)
+* [Search by brand](#search-by-brand)
+* [Search by category tree items](#search-by-category-tree-items)
 
 Other functions
-*  Order by
-*  Pagination
-*  List attributes / category tree items for result (for building filters)
-*  Caching (see config.json)
+*  [Order by](#order-by)
+*  [Pagination](#pagination)
+*  [List attributes / category tree items by search (for building filters)](#building-filters-bases-on-the-search-request)
+*  Caching see [Configuration Documentation](config.md)
 
 It's possible to combine all search conditions, 
 the examples below are showing some use cases.
@@ -47,33 +47,6 @@ foreach ($results as $mediaObject) {
 ```
 
 ### Search by media object type
-This example lists 100 media objects orderd by price ascending by a defined object type. 
-```php
-<?php
-include_once 'bootstrap.php';
-
-$search = new Pressmind\Search(
-    [
-            \Pressmind\Search\Condition\ObjectType::create(607)
-    ],
-    [
-        'start' => 0,
-        'length' => 100
-    ]
-);
-
-$results = $search->getResults(true);
-
-foreach ($results as $mediaObject) {
-    echo "<br>";
-    echo $mediaObject->getId()."<br>";
-    echo $mediaObject->name."<br>";
-    echo number_format($mediaObject->getCheapestPrice()->price_total, 0, ',', '.')."<br>";
-    echo $mediaObject->getPrettyUrl()."<br>";
-}
-```
-
-### Search by media object visibility
 This example lists 100 media objects orderd by price ascending by a defined object type.
 ```php
 <?php

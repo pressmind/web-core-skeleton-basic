@@ -18,14 +18,14 @@ Fst, we have to understand the concept inside the pressmind PIM application:
 Pressmind delivers one or more images per media object.
 Each image can have multiple formats and ratios
 
-Example:
- media object
- * image 1 original 5000x6000px 
-   * user defined cropping 400x300px
-   * user defined cropping 200x200px
- * image 2 original 4000x4000px
-   * user defined cropping 400x300px
-   * user defined cropping 200x200px
+**Example:**
+* media object
+    * image 1 original 5000x6000px 
+      * user defined cropping 400x300px
+      * user defined cropping 200x200px
+    * image 2 original 4000x4000px
+      * user defined cropping 400x300px
+      * user defined cropping 200x200px
     
 All image derivates are generated during import. 
 The image generation processes are running in the background for a while. 

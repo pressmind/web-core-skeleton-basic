@@ -3,8 +3,8 @@
 The pressmind SDK contains a simple routing and url handling. 
 
 ## Concept
-Each media object has it's own url. to create unique url's or silos, 
-each media object route has a default prefix build by the media object type name.
+Each media object has it's own url. to create unique url's or content silos, 
+Each media object route has a default prefix build by the media object type name.
    
 **Basic Example:**
 
@@ -19,8 +19,8 @@ structure:
 your-domain.com[PREFIX][FIELD][SUFFIX]
 ```
 
-
 ### More URL Examples
+You can configure the url structure, like the following examples:
 
 Example 1:
 ```
@@ -36,10 +36,10 @@ your-domain.com/hotel-name/
 ```
 
 ## Strategy
-each url must be unique. 
-but you can configure the url strategy for your purpose.
+Each url must be unique. 
+But you can configure the url strategy for your purpose.
 
-the pressmind sdk brings the following url strategies:
+The pressmind sdk brings the following url strategies:
 
 * none
 * unique
@@ -61,12 +61,15 @@ If the're is a media object which has the same route, the web-core throws an err
 Means that a route can **match only one media object**, but if the're is a media object which has the
 same route, the pressmind sdk adds a incremented integer to create a unique url.
 
-for example:
-your-domain.com/trips/spain-for-bikers/ is attached to media object 12345
-your-domain.com/trips/spain-for-bikers-1/ is attached to media object 12346
+For example:
 
-structure:
-your-domain.com/trips/spain-for-bikers-[COUNTER]/
+**your-domain.com/trips/spain-for-bikers/** is attached to media object 12345
+
+**your-domain.com/trips/spain-for-bikers-1/** is attached to media object 12346
+
+Structure:
+
+**your-domain.com/trips/spain-for-bikers-[COUNTER]/**
 
 
 ### How to configure

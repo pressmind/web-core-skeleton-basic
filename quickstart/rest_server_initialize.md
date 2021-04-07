@@ -11,3 +11,7 @@ $server->handle();
 
 ## REST API documentation
 https://pressmind.github.io/web-core/
+
+### How to configure
+All configuration can be done in config.json.
+See [Configuration Documentation](config.md) for detailed properties.

@@ -95,3 +95,5 @@ add the line to you're crontab. The cron job is run's the scheduler, see config.
 * * * * * php /your/install/path/application/cli/cron.php  > /dev/null 2>&1
 ```
 
+## 4. Ready
+

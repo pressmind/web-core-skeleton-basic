@@ -1,11 +1,11 @@
 # Custom Import Hooks
 
 In some cases is neccessary to run hooks during the import process between 
-pressmind and the sdk/web-core. 
+pressmind application and the pressmind sdk. 
 
-there possible trigger to run a hook during import process:
-* Option A: if a defined my.Content datasource is mapped to the current media object
-* Option B: by a defined media object type
+There are two possible trigger to run a hook during import process:
+* [Option A](#option-a-by-a-defined-datasource): if a defined pressmind my.Content datasource is mapped to the current media object
+* [Option B](#option-b-by-media-object-type): by a defined media object type
 
 ## Option A: by a defined datasource
 
@@ -19,7 +19,7 @@ Example configuration in config.json:
     },
 }
 ```
-Example CustomImportClass
+Example CustomImportClass:
 ```php
 namespace Custom;
 
@@ -125,10 +125,10 @@ class MyTouristicImport implements ImportInterface
 
 }
 
-``
+````
 
 
-## Option B: by code
+## Option B: by media object type
 
 Example configuration in config.json:
 ```json
@@ -142,7 +142,7 @@ Example configuration in config.json:
       
 }
 ```
-Example CustomImportClass
+Example CustomImportClass:
 ```php
 namespace Custom;
 
@@ -222,4 +222,4 @@ class MyTouristicImport implements ImportInterface
 
 }
 
-``
+```

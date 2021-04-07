@@ -40,7 +40,7 @@ Delivers the categorytree items like (destination, type, etc) based on the searc
 ```php
     include_once 'bootstrap.php';
     
-    $id_tree = 123;
+    $id_tree = 1001;
     $search = new Pressmind\Search(
         [
             Pressmind\Search\Condition\ObjectType::create(123),
