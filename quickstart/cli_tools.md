@@ -106,7 +106,7 @@ cd web-core/application/cli
 php cron.php
 ```
 
-Add this command to you're cron tab. See [Installation Documentation](installation.md) for the correct setup of crontab.
+Add this command to you're cron tab. See [Installation Documentation](installation.md#3-configure-crontab) for the correct setup of crontab.
 
 ### rebuild_cache.php
 Rebuild or warmup the media object cache. 
@@ -143,7 +143,6 @@ Example:
 cd web-core/application/cli
 php integrity_check.php
 ```
-
 
 ### fulltext_indexer.php
 This script build the fulltext index based on the given configuration options 
