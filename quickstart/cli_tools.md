@@ -3,7 +3,7 @@ This package brings several commandline tools for interacting with the pressmind
 
 All of this tools are located in cli/
 
-###install.php
+### install.php
 Installroutine (creates models, creates initial config.json)
 ```shell script
 cd web-core/application/cli
@@ -16,7 +16,7 @@ php install.php
 | with_static  | Creates tables with static data like zip, airports, airlines, etc. Per default this tables are not created.|
 | only_static  | Installs only the static data |
 
-###import.php
+### import.php
 
 
 Example 1: run a fullimport
@@ -82,7 +82,7 @@ php import.php itinerary 12345,123456
 
 
 
-###cron.php
+### cron.php
 Run scheduled tasks like cache management and logfile cleanup.
 Scheduled Tasks can configured in config.json. 
 
@@ -96,7 +96,7 @@ php cron.php
 
 Add this command to you're cron tab. See [Installation Documentation](installation.md) for the correct setup of crontab.
 
-###rebuild_cache.php
+### rebuild_cache.php
 Rebuild or warmup the media object cache. 
 
 No parameters expected.
@@ -107,7 +107,7 @@ cd web-core/application/cli
 php rebuild_cache.php
 ```
 
-###rebuild_routes.php
+### rebuild_routes.php
 Rebuild URL routes. 
 If you change route specific configuration options ([ENV].data.media_types_pretty_url.*), 
 you have to rebuild the routes. The routes are stored in the table pmt2core_routes.
@@ -120,7 +120,7 @@ cd web-core/application/cli
 php rebuild_routes.php
 ```
 
-###integrity_check.php
+### integrity_check.php
 This routine checks you're database against the current pressmind object model. 
 It detect changes and ask you fix them. 
 
@@ -133,7 +133,7 @@ php integrity_check.php
 ```
 
 
-###fulltext_indexer.php
+### fulltext_indexer.php
 This script build the fulltext index based on the given configuration options 
 ([ENV].data.media_types_fulltext_index_fields.*). If you change the configuration options 
 you have to rebuild the fulltext index with this tool.
@@ -151,7 +151,7 @@ cd web-core/application/cli
 php fulltext_indexer.php 12354,12346
 ```
 
-###image_processor.php
+### image_processor.php
 This script run's trough the table pmt2core_media_object_images and
 download and processes all image derivates and stores them on the defined storage.
 This script is a subpart of the import process and will be triggered
@@ -165,7 +165,7 @@ cd web-core/application/cli
 php image_processor.php
 ```
 
-###file_downloader.php
+### file_downloader.php
 This script run's trough the table pmt2core_media_object_files and
 downloads all required files (media object attachments)
 to you're given location. This script is a subpart of the import process and will be triggered
