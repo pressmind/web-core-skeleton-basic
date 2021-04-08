@@ -51,3 +51,8 @@ You should have at least an intermediate knowledge in MySQL, PHP-Programming and
 * [Writing Export Scripts](quickstart/writing_export_scripts.md)
 * [Image Handling](quickstart/image_handling.md)
 * [Pretty URL](quickstart/pretty_url.md)
+* [CLI Tools](quickstart/cli_tools.md)
+
+## More 
+See this [TravelShop Theme](https://github.com/pressmind/wp-travelshop-theme) 
+for a working WordPress implementation of this pressmind SDK sample application.

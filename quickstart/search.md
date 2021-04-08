@@ -9,7 +9,7 @@ Search conditions
 * [Search by departure date in date range](#search-by-departure-date-in-date-range)
 * [Search by duration](#search-by-duration)
 * [Search by transport type](#search-by-transport-type)
-* [Search by visibility](##search-by-media-object-visibility)
+* [Search by visibility](#search-by-media-object-visibility)
 * [Search by state](#search-by-state)
 * [Search by valid from, valid to](#search-by-valid-from-valid-to)
 * [Search by pool](#search-by-pool)
