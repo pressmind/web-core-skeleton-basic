@@ -15,6 +15,8 @@ All of this tools are located in cli/
 * [image_processor.php](#image_processorphp)
 * [file_downloader.php](#file_downloaderphp)
 
+## CLI Tools explained:
+
 ### install.php
 Installroutine (creates models, creates initial config.json)
 ```shell script
