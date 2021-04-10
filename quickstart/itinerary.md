@@ -1,6 +1,8 @@
-#Building Itineraries
+# Building Itineraries
 Depeding on the pressmind media object model it's possible to build detailed itineraries. 
 
+A itinerary contains descriptions (and variants), images, geolocations and some additional information
+for each day or step.
 
 ### Example Itinerary:
 ````php
