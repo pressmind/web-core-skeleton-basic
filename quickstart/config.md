@@ -138,6 +138,6 @@ overwrite defined properties.
 After changing these values, you have to rebuild your routes.
 run "php rebuild_routes.php" on commandline
 
-### Nothing will happen after changing the property "media_types_fulltext_index_fields" nothing happens.
+### Nothing will happen after changing the property "media_types_fulltext_index_fields".
 After changing these values, you have to rebuild your routes.
 run "php fulltext_indexer.php" commandline
