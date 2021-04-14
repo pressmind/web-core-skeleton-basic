@@ -1,10 +1,10 @@
-# Custom Import Hooks
+# Custom import hooks
 
-In some cases is neccessary to run hooks during the import process between 
+In some cases it is neccessary to run hooks during the import process between the
 pressmind application and the pressmind sdk. 
 
-There are two possible trigger to run a hook during import process:
-* [Option A](#option-a-by-a-defined-datasource): if a defined pressmind my.Content datasource is mapped to the current media object
+There are two possible trigger to run a hook during the import process:
+* [Option A](#option-a-by-a-defined-datasource): If a defined pressmind my.content datasource is mapped to the current media object.
 * [Option B](#option-b-by-media-object-type): by a defined media object type
 
 ## Option A: by a defined datasource
