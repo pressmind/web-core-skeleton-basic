@@ -28,7 +28,7 @@ The following example shows a simple object model for a "hotel only" tour operat
 |description    |Text[]        |x                 |a list of sections (mostly one section per language or text variants)                |
 |destination    |CategoryTree[] |x                 |destination with n subdestinations as CategoryTree Reference (multidimensional tree)            |
 |images        |Image[]        |x                 |a list of images and metadata            |
-|room types    |ObjectLink[]   |x                 |a referencelist of "RoomType"-Objects|
+|room types    |ObjectLink[]   |x                 |a reference list of "room type" objects|
 |geolocation    |geolocation[]  |x                 |list of geocoordinates|
 |touristic    |Touristic      |case specific     | |
 |...            |...            |x                 |in reality we have about 100 keys in a media object   | 
