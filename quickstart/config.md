@@ -1,10 +1,10 @@
 # Configuration options
-the whole pressmind sdk has one config file.
-by default the config format is json, but it's also possible to use a php array, or you can build you're own config adapter.
-during installation the config file will be created and preconfigured based on pressmind system. 
+The entire pressmind sdk has one config file.
+By default, the config format is json, but it is also possible to use a php array or you can build your own config adapter.
+During installation, the config file will be created and preconfigured based on the pressmind system. 
 
-## What can i configure in the config file?
-the following properties can be configured at this moment:
+## What can I configure in the config file?
+The following properties can be configured at that time:
 
 * server
 * database
@@ -22,7 +22,7 @@ the following properties can be configured at this moment:
 * scheduled_tasks
 
 ## Can the config be used for multiple stages?
-Yes, based on environemt vars (development, testing, production) it's possible to
+Yes, based on environemt vars (development, testing, production) it is possible to
 overwrite defined properties. 
 
 ## Properties
@@ -134,10 +134,10 @@ overwrite defined properties.
 
 ## FAQ
 
-### After changing the property "media_types_pretty_url" nothing happens.
-After chaning these values you have to rebuild your routes.
+### Nothing will happen after changing the property "media_types_pretty_url".
+After changing these values, you have to rebuild your routes.
 run "php rebuild_routes.php" on commandline
 
-### After changing the property "media_types_fulltext_index_fields" nothing happens.
-After chaning these values you have to rebuild your routes.
+### Nothing will happen after changing the property "media_types_fulltext_index_fields" nothing happens.
+After changing these values, you have to rebuild your routes.
 run "php fulltext_indexer.php" commandline
