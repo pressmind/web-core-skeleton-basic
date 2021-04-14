@@ -1,15 +1,14 @@
 # pressmind® web-core
 
-This is a simple skeleton web application using the pressmind SDK. It is intended to give you a clean starting point for creating web applications or RESTFULL Services using the pressmind® PIM-System
+This is a simple skeleton web application that uses the pressmind SDK. It is intended to give you a clean starting point for creating web applications or RESTful services using the pressmind® PIM-System.
 
 
 ## System overview
 ![system overview](quickstart/assets/pressmind_web_core.png)
 
 ## Quickstart
-
 This quickstart is aimed towards an experienced audience.  
-You should have at least an intermediate knowledge in MySQL, PHP-Programming and webserver-administration to get the application running as intended.
+You should have at least an intermediate knowledge in MySQL, PHP programming and webserver administration to get the application running as intended.
 
 ### Installation
 * [System requirements](quickstart/system_requirements.md)
@@ -25,18 +24,18 @@ You should have at least an intermediate knowledge in MySQL, PHP-Programming and
 * [CLI Tools](quickstart/cli_tools.md)
   
 ### Data Management
-* [Custom Import Hooks](quickstart/custom_import_hooks.md)
-* [Writing Export Scripts](quickstart/writing_export_scripts.md)
+* [Custom import hooks](quickstart/custom_import_hooks.md)
+* [Writing export scripts](quickstart/writing_export_scripts.md)
 
 ### REST Server
 * [Initializing the rest server](quickstart/rest_server_initialize.md)
 
 ### Search and Display Media Object
 * [Searching and list media objects](quickstart/search.md)
-* [Building Search Filters](quickstart/search_filter.md)
-* [Custom SQL Queries](quickstart/custom_sql_queries.md)
-* [Building Itineraries](quickstart/itinerary.md)
+* [Building search filters](quickstart/search_filter.md)
+* [Custom SQL queries](quickstart/custom_sql_queries.md)
+* [Building itineraries](quickstart/itinerary.md)
 
 ## More 
-See this [TravelShop Theme](https://github.com/pressmind/wp-travelshop-theme) 
+See [TravelShop Theme](https://github.com/pressmind/wp-travelshop-theme) 
 for a working WordPress implementation of this pressmind SDK sample application.
