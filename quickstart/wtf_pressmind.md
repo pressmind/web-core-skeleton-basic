@@ -1,21 +1,21 @@
 # Understanding pressmind® PIM
 
-pressmind® PIM is a object based product management system for tourism. The main application is developed as standard
+pressmind® PIM is an object based product management system for tourism. The main application is developed as standard
 software.
 
-Each of our customers have a use case driven datamodel. this means that the stored objects are tailormade for the
-specific customer. We named these Objects as "Media Objects".
+Each of our customers has a use case driven datamodel. This means, that the stored objects are tailormade for the
+specific customer. These objects are named "media objects".
 
-So first, before you build your application based on pressmind, you have to understand the specific customer datamodel.
+Before you can build your application based on pressmind, you have to understand the specific customer datamodel.
 
-### What is a pressmind® Media Object
+### What is a pressmind® media object?
 
-A Media Object is a complex structured description for an entity. It can contain multiple datatypes mostly with a media
-focus. Each object can have joins to other or there own object types.
+A media object is a complex structured description for an entity. It can contain multiple datatypes, mostly with a media
+focus. Each object can have joins to other or its own object types.
 
-The following example shows a simple object model for a hotel-only touroperator.
+The following example shows a simple object model for a "hotel only" tour operator.
 
-**Example Object:**
+**Example object:**
 
 ### Hotel
 
@@ -23,54 +23,54 @@ The following example shows a simple object model for a hotel-only touroperator.
 |---	        |---	        |:---:             |---	                                                                            |
 |id            |int            |                  |a unique id            |
 |code        |string        |                  |the foreign key for this hotel                |
-|name        |Plaintext[]    |x                 |a list of sections (mostly one section per language or text-variants)                |
+|name        |Plaintext[]    |x                 |a list of sections (mostly one section per language or text variants)                |
 |star-category  |CategoryTree   |x                 |hotel category pictured as CategoryTree* Reference                                                                            |
-|description    |Text[]        |x                 |a list of sections (mostly one section per language or text-variants)                |
+|description    |Text[]        |x                 |a list of sections (mostly one section per language or text variants)                |
 |destination    |CategoryTree[] |x                 |destination with n subdestinations as CategoryTree Reference (multidimensional tree)            |
 |images        |Image[]        |x                 |a list of images and metadata            |
 |room types    |ObjectLink[]   |x                 |a referencelist of "RoomType"-Objects|
 |geolocation    |geolocation[]  |x                 |list of geocoordinates|
 |touristic    |Touristic      |case specific     | |
-|...            |...            |x                 |in real world we have about 100 keys in a media object   | 
+|...            |...            |x                 |in reality we have about 100 keys in a media object   | 
 
 ### Room Type
 
-(This Objects are linked from Hotel-Objects)
+(These objects are linked from hotel objects.)
 
 |Key            |Type            |Customer specific|Description    |
 |---	        |---	        |:---:            |---	                                                                            |
 |id            |int            |                 |unique id
 |code        |string        |                 |the foreign key id for this hotel                |
-|name        |Plaintext[]    |x                |a list of sections (mostly one section per language or text-variants)                |
-|description    |Text[]        |x                |a list of sections (mostly one section per language or text-variants)                |
+|name        |Plaintext[]    |x                |a list of sections (mostly one section per language or text variants)                |
+|description    |Text[]        |x                |a list of sections (mostly one section per language or text variants)                |
 |images        |Image[]        |x                |a list of images and metadata            |
 
-The both media object types are really simple and not contain the complete detail level, it's just for quick brief.
+Please note: These are simply examples to give you a first overview. They do not contain the complete detail level.
 
 ## What about travel dates, prices, booking and the other tourism stuff?
 
-There are a many touroperator types on the market. It's themes that they are all selling the same holidays but each
-touroperator
+There are a many different tour operator types on the market. It seems that they are all selling the same holidays, but each
+tour operator
 
-* ... has a indivdual production (and system) enviroment
-* ... has a complex product pricing, based on saisons, date restrictions and complex discounts
-* ... has a other product history
-* ... has destination specific suppliers and products
-* ... has a special market and audiences and target groups
+* ... has an individual production (and system) enviroment.
+* ... has a complex product pricing, based on saisons, date restrictions and complex discounts.
+* ... has different product histories.
+* ... has destination specific suppliers and products.
+* ... has special markets, audiences and target groups.
 
-So our integration team has developed more than one integration concept for touristic data
+Thus, our integration team has developed more than one integration concept for touristic data
 
 |Name            |Touroperator Type      |recommmend Integration Endpoint    |
 |---	        |---                    |--- |
-|Case 1            |Grouptravel B2C, Transport/Arrival type: bus, plane. (max. 50 travel offers per product)|pressmind® my.content|
-|Case 2            |Grouptravel B2B, Transport/Arrival type: bus, plane, hotel-only|pressmind® my.content|
-|Case 3            |FIT B2C, Transport/Arrival type: bus, plane, hotel-only, daily arrival above 100 per product| sdk/web-core|
+|Case 1            |group travel B2C, transport/arrival type: bus, plane. (max. 50 travel offers per product)|pressmind® my.content|
+|Case 2            |group travel B2B, transport/arrival type: bus, plane, hotel only|pressmind® my.content|
+|Case 3            |FIT B2C, transport/arrival type: bus, plane, hotel only, daily arrival above 100 per product| sdk/web-core|
 
 ### What is travel offer?
 
 A travel offer is plausible, calculated and bookable travel offer.
 
-How to calculate per Product:
+How to calculate per product:
 (Possible Arrival Days) * (Possible Stays) * (Possible Roomtypes) * (other Options like Boardtype or Extras) = (Possible
 Offers)
 
@@ -78,22 +78,22 @@ Offers)
 |:---:	                |---	        |:---:              |:---: |:---:	                                                                            |
 |365                    |3, 5, 7 days   |3                  | 4 |17520                                                                                |
 
-So if you plan to sell 2000 hotels with 17500 travel offers, you have 35 Million records in you're database, be in mind,
-that you need some computing power to serve this data in you're application.
+If you plan to sell 2000 hotels with 17500 travel offers, your database contains 35 million records. Be aware,
+that you need some computing power to serve this data in your application.
 
 ## What is the main concept of the pressmind® web-core?
 
 The pressmind® web-core is a headless content cache for bookable and none bookable content.
 
-Both Content Types can be mapped to the web-core:
+Both content types can be mapped to the web-core:
 
 |Content type  |Data origin |
 |---	       |---	            
 |none-bookable |pressmind® PIM
-|bookable      |touroperator system
+|bookable      |tour operator system
 
 
-## Data (field) Types
+## Data (field) types
 These datatypes can be used to describe a media object like a product or any other entity.
 
 |type  |description |
@@ -102,8 +102,8 @@ These datatypes can be used to describe a media object like a product or any oth
 |text| html text but only with these tags p, i, u, b, strong, p, br, ul, li
 |categorytree| tree structured attribute like "planet > continent > country > district > city"
 |table| html table
-|picture| a picture list, each picture can have different sizes like thumbnail, teaser, etc
-|location| one or more geo coordinates with names
+|picture| a picture list, each picture can have different sizes like thumbnail, teaser, etc.
+|location| one or more geo coordinate with names
 |objectlink| one or more linked media objects
 |date| datefield Y-m-d H:i:s
 |key_value| simple key value map
@@ -114,9 +114,9 @@ These datatypes can be used to describe a media object like a product or any oth
 # Examples
 
 
-## List Products
+## List products
 
-You can use this query for building teasers, landingpages and other product related stuff
+You can use this query for building teasers, landingpages and other product related stuff.
 
 ```php
 <?php
@@ -181,10 +181,10 @@ foreach ($mediaObjects as $mediaObject) {
 }
 ```
 
-## Simple View
+## Simple view
 
-See product list example above. This file is called by the render-Function.
-A real world example can be found here:
+See product list example above. The render function calls this file.
+An existing example can be found here:
 https://github.com/pressmind/wp-travelshop-theme/blob/master/travelshop/template-parts/pm-views/scaffolder/Detail1.txt
 
 ```php
