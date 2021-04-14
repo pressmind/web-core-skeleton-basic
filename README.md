@@ -15,7 +15,7 @@ You should have at least an intermediate knowledge in MySQL, PHP programming and
 * [Installation](quickstart/installation.md)
 * [Understanding pressmind anatomy](quickstart/wtf_pressmind.md)
 
-### Configuratinon
+### Configuration
 * [Configuration options](quickstart/config.md)
 * [Pretty URL](quickstart/pretty_url.md)
 * [Image handling](quickstart/image_handling.md)
@@ -23,14 +23,14 @@ You should have at least an intermediate knowledge in MySQL, PHP programming and
 ### Administration
 * [CLI Tools](quickstart/cli_tools.md)
   
-### Data Management
+### Data management
 * [Custom import hooks](quickstart/custom_import_hooks.md)
 * [Writing export scripts](quickstart/writing_export_scripts.md)
 
-### REST Server
+### REST server
 * [Initializing the rest server](quickstart/rest_server_initialize.md)
 
-### Search and Display Media Object
+### Search and display media object
 * [Searching and list media objects](quickstart/search.md)
 * [Building search filters](quickstart/search_filter.md)
 * [Custom SQL queries](quickstart/custom_sql_queries.md)
