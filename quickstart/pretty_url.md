@@ -76,7 +76,7 @@ It is possible to configure this option per media object type.
 All configuration can be done in config.json.
 See [Configuration Documentation](config.md) for detailed properties.
 
-After the change of this values, you have to rebuild the routes:
+After the change of these values, you have to rebuild the routes:
 
 ```shell
 php rebuild_routes.php
