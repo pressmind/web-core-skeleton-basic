@@ -1,6 +1,6 @@
 # Image handling
 The pressmind sdk receives images from the pressmind application and
-generated several defined image derivates.
+generates several defined image derivates.
 
 First, we have to understand the concept inside the pressmind PIM application:
 
