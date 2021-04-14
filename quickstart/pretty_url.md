@@ -3,10 +3,10 @@
 The pressmind SDK contains a simple routing and url handling. 
 
 ## Concept
-Each media object has it's own url. to create unique url's or content silos, 
-Each media object route has a default prefix build by the media object type name.
+Each media object has its own url to create unique urls or content silos.
+Each media object route has a default prefix which is built by the media object type name.
    
-**Basic Example:**
+**Basic example:**
 
 default url pattern:
 
@@ -19,8 +19,8 @@ structure:
 your-domain.com[PREFIX][FIELD][SUFFIX]
 ```
 
-### More URL Examples
-You can configure the url structure, like the following examples:
+### More URL examples
+You can configure the url structure according to the following examples:
 
 Example 1:
 ```
@@ -36,30 +36,29 @@ your-domain.com/hotel-name/
 ```
 
 ## Strategy
-Each url must be unique. 
-But you can configure the url strategy for your purpose.
+Each url must be unique, but you can configure the url strategy for your purpose.
 
-The pressmind sdk brings the following url strategies:
+The pressmind sdk has the following url strategies:
 
 * none
 * unique
 * count-up
 
 ### Strategy 'none'
-Means that a route can **match to several media objects**.
-For example you can call your-domain.com/trips/spain-for-bikers/ 
-the system delivers one ore more media objects for display in the frontend.
-This case is useful for seo optimized travel products if you're 
-selling a the product year by year, but the product description has changes per season.
-So it's possible to show one or more product variants under one url.
+This strategy means that a route can **match to several media objects**.
+For example you can call your-domain.com/trips/spain-for-bikers/,
+the system delivers one or more media objects which are displayed in the frontend.
+This case is useful for seo optimized travel products. Thus, it may happen that the tour operator sells the product year by year, 
+but the product description has changes per season. 
+Therefore, it is possible to show one or more product variants under one url.
 
 ### Strategy 'unique'
-Means that a route can **match only one media object**. 
-If the're is a media object which has the same route, the web-core throws an error during import.
+This strategy means that a route can **match only one media object**. 
+If there is a media object which has the same route, the web-core throws an error during import.
 
 ### Strategy 'count-up'
-Means that a route can **match only one media object**, but if the're is a media object which has the
-same route, the pressmind sdk adds a incremented integer to create a unique url.
+This strategy means that a route can **match only one media object**. If there is a media object which has the
+same route, the pressmind sdk adds an incremented integer to create a unique url.
 
 For example:
 
@@ -73,11 +72,11 @@ Structure:
 
 
 ### How to configure
-It's possible to configure this option per media object type. 
+It is possible to configure this option per media object type. 
 All configuration can be done in config.json.
 See [Configuration Documentation](config.md) for detailed properties.
 
-After change this values you have to rebuild the routes:
+After the change of this values, you have to rebuild the routes:
 
 ```shell
 php rebuild_routes.php
