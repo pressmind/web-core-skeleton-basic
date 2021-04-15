@@ -1,9 +1,9 @@
 # Writing time based export scripts
 In some case you have to write export files in a specified period.
-it's possible to use the integrated sheduler to run a custom export script...
+It is possible to use the integrated scheduler to run a custom export script...
 
 **Step 1:**
-create the script, locate it in APPLICATION_PATH/Custom/Export/NiceCustomExport.php
+Create the script and locate it in APPLICATION_PATH/Custom/Export/NiceCustomExport.php.
 
 ```php
 <?php
@@ -31,9 +31,9 @@ class NiceCustomExport {
 }
 ```
 **Step 2:**
-add the export method to the scheduler.
-the scheduler config is located in the config.json
-be sure that you're cron.php is running as crontab.
+Add the export method to the scheduler.
+The scheduler config is located in the config.json.
+Make sure that your cron.php is running as crontab.
 
 ```json
        "scheduled_tasks": [
