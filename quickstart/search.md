@@ -47,7 +47,7 @@ foreach ($results as $mediaObject) {
 ```
 
 ### Search by media object type
-This example lists 100 media objects orderd by price ascending by a defined object type.
+This example lists 100 media objects ordered by price ascending by a defined object type.
 ```php
 <?php
 include_once 'bootstrap.php';
