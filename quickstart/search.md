@@ -150,7 +150,7 @@ foreach ($results as $mediaObject) {
 }
 ```
 
-### Search by Duration
+### Search by duration
 This example lists all media object that have a touristic travel duration in the defined range.
 ```php
 <?php
@@ -200,7 +200,7 @@ foreach ($results as $mediaObject) {
 
 
 ### Search by visibility
-This example lists all media object that have the defined visibilities.
+This example lists all media objects that have the defined visibilities.
 If no condition is set, visibility 30 is set. 
 Allowed visibilities must also be defined in config.json.
 
@@ -236,7 +236,7 @@ foreach ($results as $mediaObject) {
 ```
 
 ### Search by state
-This example lists all media object that have the defined states.
+This example lists all media objects that have the defined states.
 
 **State map**:
 
@@ -299,7 +299,7 @@ foreach ($results as $mediaObject) {
 ```
 
 ### Search by pool
-This example lists all media object that have the defined pools.
+This example lists all media objects that have the defined pools.
 
 ```php
 <?php
@@ -381,7 +381,7 @@ foreach ($results as $mediaObject) {
 
 
 ### Order by
-This examples has an attached order by clausel.
+This example has an attached order by clausel.
 The following values are allowed at this moment: price, code, name, RAND()
 
 ```php
@@ -418,7 +418,7 @@ foreach ($results as $mediaObject) {
 
 
 ### Pagination
-This example brings you the basic function to build a pagination.
+This example shows the basic function to build a pagination.
 
 ```php
 <?php
@@ -453,7 +453,7 @@ foreach ($results as $mediaObject) {
 }
 ```
 
-###  Building filters bases on the search request
+###  Building filters based on the search request
 This example displays all media objects in defined price range and delivers 
 possible filter options based on the search conditions. 
 So, it is possible to build search filters.
