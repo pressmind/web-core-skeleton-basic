@@ -1,6 +1,6 @@
-# Writing custom sql queries
-In some cases it's neccesry to write a custom sql query.
-But be aware the frameworks business logic is much safer!
+# Writing custom SQL queries
+In some cases it is necessary to write a custom SQL query.
+But be aware that the frameworks business logic is much safer!
 
 ```php
 <?php
