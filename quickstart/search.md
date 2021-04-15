@@ -22,8 +22,8 @@ Other functions
 *  [List attributes / category tree items by search (for building filters)](#building-filters-bases-on-the-search-request)
 *  Caching see [Configuration Documentation](config.md)
 
-It's possible to combine all search conditions, 
-the examples below are showing some use cases.
+It is possible to combine all search conditions, 
+the examples below show some use cases.
 
 ## Example search queries:
 
@@ -75,7 +75,7 @@ foreach ($results as $mediaObject) {
 
 ### Search by term in fulltext index
 This example searches by the term "Italien" in the defined media object type. 
-the object type is required.
+The object type is required.
 
 ```php
 <?php
@@ -123,10 +123,10 @@ foreach ($results as $mediaObject) {
 
 
 ### Search by departure date in date range
-This example lists all media objects in the defined daterange.
-It delivers touristic media objects that have the departure date in the defined range.
+This example lists all media objects in the defined date range.
+It delivers touristic media objects which have the departure date in the defined range.
 
-Correspondes to the sql statement 'select * from dates where 
+Corresponds to the sql statement 'select * from dates where 
 date_departure BETWEEN :date_from AND :date_to';
 
 ```php
@@ -175,7 +175,7 @@ foreach ($results as $mediaObject) {
 
 ### Search by transport type
 This example lists all media objects with the defined transport type.
-The transport type is customer defined value
+The transport type is customer defined value.
 
 ```php
 <?php
@@ -199,10 +199,10 @@ foreach ($results as $mediaObject) {
 ```
 
 
-### Search by Visibility
+### Search by visibility
 This example lists all media object that have the defined visibilities.
-if no condition is set visibility 30 is set. 
-allowed visibilities must also defined in config.json.
+If no condition is set, visibility 30 is set. 
+Allowed visibilities must also be defined in config.json.
 
 **Visibility map**:
 
@@ -275,7 +275,7 @@ foreach ($results as $mediaObject) {
 ```
 
 ### Search by valid from, valid to
-This example lists all media objects that have the defined "valid from", "valid to" range
+This example lists all media objects that have the defined "valid from", "valid to" range.
 
 ```php
 <?php
@@ -299,7 +299,7 @@ foreach ($results as $mediaObject) {
 ```
 
 ### Search by pool
-this example lists all media object that have the defined pools.
+This example lists all media object that have the defined pools.
 
 ```php
 <?php
@@ -351,11 +351,11 @@ foreach ($results as $mediaObject) {
 This example lists all media objects that have the defined 
 category tree items joined to the defined property.
 
-The category tree item ids are uuid's.
-If you need these id's there are 3 ways:
+The category tree item ids are uuids.
+If you need these ids, there are three possiblities:
 1. right click on a tree item in the pressmind application and select 'copy id'
-2. list all available id's with a search filter, documentation found [here](search_filter.md).
-3. lookup in the database table: pmt2core_category_tree_items
+2. list all available ids with a search filter, documentation found [here](search_filter.md).
+3. look up in the database table: pmt2core_category_tree_items
 
 ```php
 <?php
@@ -381,8 +381,8 @@ foreach ($results as $mediaObject) {
 
 
 ### Order by
-This examples has a attached order by clausel.
-Following values are allowed at this moment: price, code, name, RAND()
+This examples has an attached order by clausel.
+The following values are allowed at this moment: price, code, name, RAND()
 
 ```php
 <?php
@@ -454,9 +454,9 @@ foreach ($results as $mediaObject) {
 ```
 
 ###  Building filters bases on the search request
-This example displays all media object in defined price range and delivers 
+This example displays all media objects in defined price range and delivers 
 possible filter options based on the search conditions. 
-so it's possible to build search filters
+So, it is possible to build search filters.
 
 ```php
 <?php
