@@ -5,6 +5,8 @@ use Autoloader;
 use Exception;
 use Pressmind\DB\Adapter\Pdo;
 
+date_default_timezone_set('Europe/Berlin');
+
 /**
  * The pressmind lib needs five CONSTANTS to work
  * BASE_PATH: The base path of the application (usually the directory that contains the document_root folder)
