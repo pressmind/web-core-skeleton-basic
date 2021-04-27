@@ -145,10 +145,14 @@ switch ($args[1]) {
     default:
         $helptext = "usage: import.php [fullimport | mediaobject | itinerary | objecttypes | insurances | depublish | destroy | remove_orphans] [<single id or commaseparated list of ids>]\n";
         $helptext .= "Example usages:\n";
-        $helptext .= "php import.php fullimport\n";
-        $helptext .= "php import.php mediaobject 123456, 78901234 <single or multiple ids allowed>\n";
-        $helptext .= "php import.php objecttypes 123, 456 <singe or multiple ids allowed>\n";
-        $helptext .= "php import.php itinerary 123456 <singe or multiple ids allowed>\n";
+        $helptext .= "php import.php fullimport (import all media objects that are allowed by configuration)\n";
+        $helptext .= "php import.php mediaobject 123456, 7890124 (import only the given media objects)\n";
+        $helptext .= "php import.php objecttypes 123, 456 (import only this media object types)\n";
+        $helptext .= "php import.php itinerary 123456 (imports itinerary by given media objects)\n";
+        $helptext .= "php import.php destroy 123456,12345 (removes given media objects from database) \n";
+        $helptext .= "php import.php depublish 123456,12345 (set visibility to 'nobody')\n";
+        $helptext .= "php import.php remove_orphans (removes orphans from database)";
+        $helptext .= "php import.php insurances (import insurances)";
         echo $helptext;
 }
 
