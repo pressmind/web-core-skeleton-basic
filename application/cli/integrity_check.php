@@ -40,6 +40,9 @@ foreach (Info::STATIC_MODELS as $model_name) {
                     case 'set_auto_increment':
                         addAutoIncrement($object->getDbTableName(), $difference['column_name'], $difference['column_type'], $difference['column_null']);
                         break;
+                    case 'add_index':
+                        addIndex($object->getDbTableName(), $difference['column_names'], $difference['index_name']);
+                        break;
                 }
             }
         }
@@ -58,7 +61,6 @@ try {
     echo 'Checking custom media objects for integrity'. "\n";
     $media_type_definition_response = $rest_client->sendRequest('ObjectType', 'getById', ['ids' => implode(',', $media_type_ids)]);
     foreach($media_type_definition_response->result as $media_type_definition) {
-        echo 'checking table ' . 'objectdata_' . $media_type_definition->id . "\n";
         $integrityCheck = new ObjectIntegrityCheck($media_type_definition, 'objectdata_' . $media_type_definition->id);
         $differences = $integrityCheck->getDifferences();
         if(count($differences) > 0) {
@@ -89,7 +91,7 @@ try {
                 }
             }
         } else {
-            echo "table is O.K.\n";
+            echo 'Table ' . 'objectdata_' . $media_type_definition->id . " is up to date.\n";
         }
     }
 } catch (Exception $e) {
@@ -179,6 +181,13 @@ function removeAutoIncrement($tableName, $columnName, $type, $is_null) {
 
 function dropColumn($tableName, $columnName) {
     $sql = 'ALTER TABLE ' . $tableName . ' DROP ' . $columnName;
+    $db = Registry::getInstance()->get('db');
+    echo $sql . "\n";
+    $db->execute($sql);
+}
+
+function addIndex($tableName, $columnNames, $indexName) {
+    $sql = "CREATE INDEX " . $indexName . " ON " . $tableName . " (" . implode(',' , $columnNames) . ")";
     $db = Registry::getInstance()->get('db');
     echo $sql . "\n";
     $db->execute($sql);
