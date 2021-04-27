@@ -14,16 +14,24 @@ if(php_sapi_name() == 'cli') {
 
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-$args = $argv;
-$args[1] = isset($argv[1]) ? $argv[1] : null;
 
 $config = Registry::getInstance()->get('config');
 
-Writer::write('Image processor started', WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
+$logtext = 'Image processor started';
+
+if(isset($argv[1]) && is_numeric($argv[1])) {
+    $logtext = 'Image processor for media_object_id: ' . $argv[1] . ' started';
+}
+
+Writer::write($logtext, WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
 
 try {
+    $params = ['download_successful' => 0];
+    if(isset($argv[1]) && is_numeric($argv[1])) {
+        $params['id_media_object'] = $argv[1];
+    }
     /** @var Picture[] $result */
-    $result = Picture::listAll(array('download_successful' => 0));
+    $result = Picture::listAll($params);
 } catch (Exception $e) {
     Writer::write($e->getMessage(), WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_ERROR);
 }
