@@ -16,12 +16,17 @@ switch ($args[1]) {
         $importer = new Import('fullimport');
         Writer::write('Importing all media objects', Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
         $object_type = null;
+        $visibilities = null;
         if(isset($args[2]) && is_numeric($args[2])) {
             $object_type = [$args[2]];
             Writer::write('Import limited to object type IDs: ' . implode(',', $object_type), Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
+        } else if(isset($args[2]) && $args[2] == '--visibilities') {
+            if(isset($args[3])) {
+                $visibilities = array_map('trim', explode(',', $args[3]));
+            }
         }
         try {
-            $importer->import(null, $object_type);
+            $importer->import(null, $object_type, $visibilities);
             if($importer->hasErrors()) {
                 echo ("WARNING: Import threw errors:\n" . implode("\n", $importer->getErrors())) . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
             }
@@ -30,9 +35,25 @@ switch ($args[1]) {
             Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'import', Writer::TYPE_ERROR);
             echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
         } finally {
-            $importer->postImport();
+            //$importer->postImport();
         }
         break;
+    case 'resume': {
+        $importer = new Import('fullimport');
+        Writer::write('Resuming import of media objects', Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
+        try {
+            $importer->importMediaObjectsFromFolder();
+            if($importer->hasErrors()) {
+                echo ("WARNING: Import threw errors:\n" . implode("\n", $importer->getErrors())) . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
+            }
+            Writer::write('Import done.', Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
+        } catch(Exception $e) {
+            Writer::write($e->getMessage(), Writer::OUTPUT_BOTH, 'import', Writer::TYPE_ERROR);
+            echo "WARNING: Import threw errors:\n" . $e->getMessage() . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_error.log for details\n";
+        } finally {
+            //$importer->postImport();
+        }
+    }
     case 'dataview':
         $importer = new DataView();
         $importer->import();
@@ -45,7 +66,7 @@ switch ($args[1]) {
             try {
                 $importer->importMediaObjectsFromArray($ids);
                 Writer::write('Import done.', Writer::OUTPUT_BOTH, 'import', Writer::TYPE_INFO);
-                $importer->postImport();
+                //$importer->postImport();
                 if($importer->hasErrors()) {
                     echo ("WARNING: Import threw errors:\n" . implode("\n", $importer->getErrors())) . "\nSee database table pmt2core_logs or " . Writer::getLogFilePath() . DIRECTORY_SEPARATOR . "import_errors.log for details\n";
                 }
