@@ -1,6 +1,6 @@
 # pressmind® web-core
 
-This is a simple skeleton web application that uses the pressmind SDK. It is intended to give you a clean starting point for creating web applications or RESTful services using the pressmind® PIM-System.
+This is a simple skeleton web application that uses the [pressmind SDK](https://github.com/pressmind/sdk). It is intended to give you a clean starting point for creating web applications or RESTful services using the pressmind® PIM-System.
 
 
 ## System overview
