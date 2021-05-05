@@ -75,3 +75,8 @@ foreach ($result as $image) {
     unset($binary_image);
 }
 Writer::write('Image processor finished', WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
+if(isset($argv[1]) && is_numeric($argv[1])) {
+    Writer::write('Updating cache', WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
+    $mediaObject = new ORM\Object\MediaObject($argv[1], true, true);
+    $mediaObject->updateCache($mediaObject->getId());
+}
