@@ -4,31 +4,68 @@
  */
 
 /**
- * @var Custom\MediaType\###CLASSNAME### $###VARIABLENAME###
- */
-$###VARIABLENAME### = $data['data'];
-
-/**
- * @var Pressmind\ORM\Object\Touristic\Booking\Package[] $booking_packages
- */
-$booking_packages = $data['booking_packages'];
-
-/**
  * @var Pressmind\ORM\Object\MediaObject $media_object
  */
 $media_object = $data['media_object'];
 
+/**
+ * @var string
+ */
+$language = $data['language'];
+
+/**
+ * @var mixed
+ */
+$custom_data = $data['custom_data'];
+
+/**
+ * @var Custom\MediaType\###CLASSNAME### $###VARIABLENAME###
+ */
+$###VARIABLENAME### = $media_object->getDataForLanguage();
+
+/**
+ * @var Pressmind\ORM\Object\Touristic\Booking\Package[] $booking_packages
+ */
+$booking_packages = $media_object->booking_packages;
+
+/**
+ * @var \Pressmind\ORM\Object\CheapestPriceSpeed
+ */
 $cheapest_price = $media_object->getCheapestPrice();
 ?>
 <h1>This is the Example View for Media Object Type "###OBJECTNAME###"</h1>
 <p>Open the file ###VIEWFILEPATH### in a text editor, to see how the information in this file was rendered</p>
+<h4>Language</h4>
+<p><?php echo $language;?></p>
+<h4>Custom data</h4>
+<pre><?php print_r($custom_data);?></pre>
 <?php if(!is_null($cheapest_price)) {?>
     <h4>Cheapest Price</h4>
-    <pre>
-        <?php print_r($cheapest_price->toStdClass());?>
-    </pre>
+    <pre><?php print_r($cheapest_price->toStdClass());?></pre>
 <?php }?>
 <h4>Properties for Media Type</h4>
 <dl>
     ###PROPERTYLIST###
 </dl>
+<h3>Touristic Data</h3>
+<?php if(!empty($cheapest_price)) {
+    foreach ($booking_packages as $booking_package) {?>
+        <h5>Booking Package ID: <?php echo $booking_package->id;?> -  <?php echo $booking_package->name;?> - Price Mix: <?php echo $booking_package->price_mix;?></h5>
+        <?php foreach ($booking_package->dates as $date) {?>
+            <p><strong>Date ID:  - <?php echo $date->id;?> - <?php echo $date->departure->format('d.m.Y');?> - <?php echo $date->arrival->format('d.m.Y');?></strong></p>
+            <?php if($booking_package->price_mix == 'date_housing') {?>
+                <?php foreach ($date->getHousingOptions() as $housing_option) {
+                    $housing_package = $housing_option->getHousingPackage();
+                    ?>
+                    <p><?php echo $housing_option->name;?>: <?php echo \Pressmind\HelperFunctions::number_format($housing_option->price);?>€ p. Person [<a href="https://demo.pressmind-ibe.net/?imo=<?php echo $booking_package->id_media_object; ?>&idbp=<?php echo $booking_package->id; ?>&idhp=<?php echo $housing_package->id; ?>&idd=<?php echo $date->id; ?>&iho[<?php echo $housing_option->id; ?>]=1" target="_blank">Book</a>]</p>
+                <?php }?>
+            <?php }?>
+            <?php if($booking_package->price_mix == 'date_ticket') {?>
+                <?php foreach ($date->getTickets() as $ticket) {
+                    ?>
+                    <p><?php echo $ticket->name;?>: <?php echo \Pressmind\HelperFunctions::number_format($ticket->price);?>€ p. Person [<a href="https://demo.pressmind-ibe.net/?imo=<?php echo $booking_package->id_media_object; ?>&idbp=<?php echo $booking_package->id; ?>&idd=<?php echo $date->id; ?>&ido=<?php echo $ticket->id;?>" target="_blank">Book</a>]</p>
+                <?php }?>
+            <?php }?>
+        <?php }?>
+    <?php }?>
+<?php }?>
