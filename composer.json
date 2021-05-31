@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "pressmind/sdk": "dev-master#v1.2.4.3",
+        "pressmind/sdk": "dev-master#v1.2.6",
         "ext-json": "*",
         "ext-readline": "*"
     }
