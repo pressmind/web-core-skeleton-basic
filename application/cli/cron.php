@@ -14,4 +14,6 @@ try {
     $scheduler->walk();
 } catch (Exception $e) {
     Writer::write($e->getMessage(), Writer::OUTPUT_FILE, 'scheduler', Writer::TYPE_ERROR);
+} catch (Error $e) {
+    Writer::write($e->getMessage(), Writer::OUTPUT_FILE, 'scheduler', Writer::TYPE_ERROR);
 }

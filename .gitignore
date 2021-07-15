@@ -10,4 +10,5 @@
 /httpdocs/assets/images/*
 /httpdocs/assets/files/*
 /httpdocs/docs/objecttypes/*
+/httpdocs/test
 composer.lock
