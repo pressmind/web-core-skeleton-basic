@@ -19,6 +19,7 @@ You should have at least an intermediate knowledge in MySQL, PHP programming and
 * [Configuration options](quickstart/config.md)
 * [Pretty URL](quickstart/pretty_url.md)
 * [Image handling](quickstart/image_handling.md)
+* [Caching](quickstart/caching.md)
 
 ### Administration
 * [CLI Tools](quickstart/cli_tools.md)
