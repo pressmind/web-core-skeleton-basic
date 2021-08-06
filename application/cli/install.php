@@ -7,6 +7,7 @@ use Pressmind\REST\Client;
 use Pressmind\System\Info;
 
 $no_update = false;
+$drop_tables = false;
 
 $args = $argv;
 $args[1] = isset($argv[1]) ? $argv[1] : null;
@@ -15,9 +16,14 @@ switch ($args[1]) {
     case 'no_update':
         $no_update = true;
         break;
+    case 'drop_tables':
+        $drop_tables = true;
+        break;
 }
 
 $first_install = !file_exists(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config.json');
+
+
 
 if($first_install) {
     $sdk_directory = dirname(dirname(__DIR__))
@@ -102,7 +108,7 @@ if($args[1] != 'only_static') {
             $model_name = $namespace . $model;
             Writer::write('Creating database table for model: ' . $model_name, Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_INFO);
             $scaffolder = new DB\Scaffolder\Mysql(new $model_name());
-            $scaffolder->run($args[1] === 'drop_tables');
+            $scaffolder->run($drop_tables);
             /*foreach ($scaffolder->getLog() as $scaffolder_log) {
                 Writer::write($scaffolder_log, Writer::OUTPUT_FILE, 'install', Writer::TYPE_INFO);
             }*/
@@ -173,7 +179,7 @@ if($args[1] != 'only_static') {
             $config['data']['media_types_allowed_visibilities'] = $media_types_allowed_visibilities;
             Registry::getInstance()->get('config_adapter')->write($config);
             Registry::getInstance()->add('config', $config);
-            $importer->importMediaObjectTypes($ids);
+            $importer->importMediaObjectTypes($ids, $drop_tables);
         }
     } catch (Exception $e) {
         Writer::write($e->getMessage(), Writer::OUTPUT_SCREEN, 'install', Writer::TYPE_ERROR);
