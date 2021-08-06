@@ -18,18 +18,6 @@ date_default_timezone_set('Europe/Berlin');
 define('BASE_PATH', dirname(__DIR__));
 define('APPLICATION_PATH', __DIR__);
 define('WEBSERVER_DOCUMENT_ROOT', BASE_PATH . DIRECTORY_SEPARATOR . 'httpdocs');
-if (php_sapi_name() != "cli") {
-    define('WEBSERVER_HTTP', ((empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') ? 'http://' : 'https://') . $_SERVER['HTTP_HOST']);
-
-    /**
-     * WebP Support, if support of older Browsers like IE10 is required you can turn off WebP support here by using a conditional state based on request headers fo example
-     */
-    if (empty($_SERVER['HTTP_ACCEPT']) === false) {
-        define('WEBP_SUPPORT', in_array('image/webp', explode(',', $_SERVER['HTTP_ACCEPT'])));
-    }
-} else {
-    define('WEBSERVER_HTTP', 'http://127.0.0.1/');
-}
 
 /**
  * The ENV constant is used by the configuration to determine the environmet the application is running in
@@ -72,6 +60,19 @@ require_once BASE_PATH . '/vendor/autoload.php';
  */
 $config_adapter = new Config('json', HelperFunctions::buildPathString([APPLICATION_PATH, 'config.json']), ENV);
 $config = $config_adapter->read();
+
+if (php_sapi_name() != "cli") {
+    define('WEBSERVER_HTTP', ((empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') ? 'http://' : 'https://') . $_SERVER['HTTP_HOST']);
+
+    /**
+     * WebP Support, if support of older Browsers like IE10 is required you can turn off WebP support here by using a conditional state based on request headers fo example
+     */
+    if (empty($_SERVER['HTTP_ACCEPT']) === false) {
+        define('WEBP_SUPPORT', in_array('image/webp', explode(',', $_SERVER['HTTP_ACCEPT'])));
+    }
+} else {
+    define('WEBSERVER_HTTP', $config['server']['webserver_http']);
+}
 
 /**
  * Configure the database adapter
