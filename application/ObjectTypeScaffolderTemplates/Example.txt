@@ -43,11 +43,29 @@ $cheapest_price = $media_object->getCheapestPrice();
     <h4>Cheapest Price</h4>
     <pre><?php print_r($cheapest_price->toStdClass());?></pre>
 <?php }?>
+<h4>Properties for Media Object</h4>
+<dl>
+<?php foreach ($media_object as $key => $value) {
+    $property_definition = $media_object->getPropertyDefinition($key);
+    if($property_definition['type'] != 'relation') {?>
+    <dt><?php echo $key;?></dt>
+    <dd>
+        type: <?php echo $property_definition['type'];?><br>
+        <?php if(($property_definition['type'] == 'datetime' || $property_definition['type'] == 'date') && !is_null($value)) {?>
+            value: <?php echo $value->format(DATE_ISO8601);?>
+        <?php } else {?>
+            value: <?php echo is_null($value) ? 'NULL' : $value;?>
+        <?php }?>
+    </dd>
+<?php }
+}?>
+</dl>
 <h4>Properties for Media Type</h4>
+<p><?php echo \Pressmind\HelperFunctions::buildPathString([BASE_PATH,'application',str_replace('\\', '/', get_class($###VARIABLENAME###))]);?></p>
 <dl>
     ###PROPERTYLIST###
 </dl>
-<h3>Touristic Data</h3>
+<h4>Touristic Data</h4>
 <?php if(!empty($cheapest_price)) {
     foreach ($booking_packages as $booking_package) {?>
         <h5>Booking Package ID: <?php echo $booking_package->id;?> -  <?php echo $booking_package->name;?> - Price Mix: <?php echo $booking_package->price_mix;?></h5>
@@ -57,15 +75,81 @@ $cheapest_price = $media_object->getCheapestPrice();
                 <?php foreach ($date->getHousingOptions() as $housing_option) {
                     $housing_package = $housing_option->getHousingPackage();
                     ?>
-                    <p><?php echo $housing_option->name;?>: <?php echo \Pressmind\HelperFunctions::number_format($housing_option->price);?>€ p. Person [<a href="https://demo.pressmind-ibe.net/?imo=<?php echo $booking_package->id_media_object; ?>&idbp=<?php echo $booking_package->id; ?>&idhp=<?php echo $housing_package->id; ?>&idd=<?php echo $date->id; ?>&iho[<?php echo $housing_option->id; ?>]=1" target="_blank">Book</a>]</p>
+                    <p><?php echo $housing_option->name;?>: <?php echo \Pressmind\HelperFunctions::number_format($housing_option->price);?>€ p. Person [<a href="http://ib3-v3.local/?imo=<?php echo $booking_package->id_media_object; ?>&idbp=<?php echo $booking_package->id; ?>&idhp=<?php echo $housing_package->id; ?>&idd=<?php echo $date->id; ?>&iho[<?php echo $housing_option->id; ?>]=1" target="_blank">Book</a>]</p>
                 <?php }?>
             <?php }?>
             <?php if($booking_package->price_mix == 'date_ticket') {?>
                 <?php foreach ($date->getTickets() as $ticket) {
                     ?>
-                    <p><?php echo $ticket->name;?>: <?php echo \Pressmind\HelperFunctions::number_format($ticket->price);?>€ p. Person [<a href="https://demo.pressmind-ibe.net/?imo=<?php echo $booking_package->id_media_object; ?>&idbp=<?php echo $booking_package->id; ?>&idd=<?php echo $date->id; ?>&ido=<?php echo $ticket->id;?>" target="_blank">Book</a>]</p>
+                    <p><?php echo $ticket->name;?>: <?php echo \Pressmind\HelperFunctions::number_format($ticket->price);?>€ p. Person [<a href="http://ib3-v3.local/?imo=<?php echo $booking_package->id_media_object; ?>&idbp=<?php echo $booking_package->id; ?>&idd=<?php echo $date->id; ?>&ido=<?php echo $ticket->id;?>" target="_blank">Book</a>]</p>
+                <?php }?>
+            <?php }?>
+            <?php if($booking_package->price_mix == 'date_extra') {?>
+                <?php foreach ($date->getExtras() as $extra) {
+                    ?>
+                    <p><?php echo $extra->name;?>: <?php echo \Pressmind\HelperFunctions::number_format($extra->price);?>€ p. Person [<a href="http://ib3-v3.local/?imo=<?php echo $booking_package->id_media_object; ?>&idbp=<?php echo $booking_package->id; ?>&idd=<?php echo $date->id; ?>&ido=<?php echo $extra->id;?>" target="_blank">Book</a>]</p>
+                <?php }?>
+            <?php }?>
+        <?php }?>
+        <?php if(!empty($booking_package->itinerary_variants)) {?>
+            <h5>Itinerary Variants</h5>
+            <?php foreach ($booking_package->itinerary_variants as $variant) {?>
+                <p><strong>Variant ID: <?php echo $variant->id;?></strong></p>
+                    <?php foreach ($variant->steps as $step) {?>
+                    <ul>
+                        <?php foreach ($step->sections as $section) {?>
+                            <li>
+                                <h6><?php echo $section->content->headline;?></h6>
+                                <p><?php echo $section->content->description;?></p>
+                                <p><strong>Board</strong></p>
+                                <?php foreach ($step->board as $board) {?>
+                                    <pre><?php print_r($board->toStdClass());?></pre>
+                                <?php }?>
+                                <p><strong>Images</strong></p>
+                                <?php foreach ($step->document_media_objects as $document_media_object) {?>
+                                    <img src="<?php echo $document_media_object->getUri('thumbnail');?>" <?php echo $document_media_object->getSizes('thumbnail');?> title="<?php echo $document_media_object->copyright;?>">
+                                    <pre><?php print_r($document_media_object->toStdClass());?></pre>
+                                <?php }?>
+                                <p><strong>Linked Text Objects</strong></p>
+                                <?php foreach ($step->text_media_objects as $text_media_object) {?>
+                                    <pre><?php print_r($text_media_object->toStdClass());?></pre>
+                                <?php }?>
+                                <p><strong>Geopoints</strong></p>
+                                <?php foreach ($step->geopoints as $geopoint) {?>
+                                    <pre><?php print_r($geopoint->toStdClass());?></pre>
+                                <?php }?>
+                            </li>
+                        <?php }?>
+                    </ul>
                 <?php }?>
             <?php }?>
         <?php }?>
     <?php }?>
 <?php }?>
+<h4>Itinerary Steps</h4>
+<?php foreach ($media_object->getItinerarySteps() as $itineraryStep) {
+    $content = $itineraryStep->getContentForlanguage();?>
+    <h5><?php echo $content->headline;?></h5>
+    <p><?php echo $content->description;?></p>
+    <h6>Board</h6>
+    <?php foreach ($itineraryStep->board as $board) {?>
+        <pre><?php print_r($board->toStdClass());?></pre>
+    <?php }?>
+    <h6>Geopoints</h6>
+    <?php foreach ($itineraryStep->geopoints as $geopoint) {?>
+        <pre><?php print_r($geopoint->toStdClass());?></pre>
+    <?php }?>
+    <h6>Images</h6>
+    <?php foreach ($itineraryStep->document_media_objects as $document_media_object) {?>
+        <pre><?php print_r($document_media_object->toStdClass());?></pre>
+    <?php }?>
+    <h6>Linked Text Objects</h6>
+    <?php foreach ($itineraryStep->text_media_objects as $text_media_object) {?>
+        <pre><?php print_r($text_media_object->toStdClass());?></pre>
+    <?php }?>
+<?php }?>
+<h4>Object Log</h4>
+<pre><?php print_r($media_object->getLog());?></pre>
+<h4>Cache</h4>
+<pre><?php echo $media_object->isCached();?></pre>
+<pre><?php print_r($media_object->getCacheInfo());?></pre>
