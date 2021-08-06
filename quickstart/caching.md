@@ -21,7 +21,7 @@ To avoid a cache blowup, the keys have a defined lifetime which depends on the i
 ## 1. Enable caching in the config
 Go to the settings section and enable the cache. 
 Check all parameters and configure your environment.
-````json
+````php
 "cache" => [
             "enabled" => true,
             "adapter" => [
@@ -57,7 +57,7 @@ So please check that ```cron.php``` is configured as cron (see [installation](in
 Also check the ```config.json``` and ensure that the ```scheduled_tasks```
 contains the ```Cache Clean Up```-Task
 
-````json
+````php
 "scheduled_tasks" => [
          [
             "name" => "Cache Clean Up",
@@ -76,7 +76,6 @@ contains the ```Cache Clean Up```-Task
             ],
         ],
     ],
-],
 ````
 
 ## 3. Check if its working
