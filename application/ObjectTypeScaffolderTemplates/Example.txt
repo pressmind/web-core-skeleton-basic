@@ -71,23 +71,34 @@ $cheapest_price = $media_object->getCheapestPrice();
         <h5>Booking Package ID: <?php echo $booking_package->id;?> -  <?php echo $booking_package->name;?> - Price Mix: <?php echo $booking_package->price_mix;?></h5>
         <?php foreach ($booking_package->dates as $date) {?>
             <p><strong>Date ID:  - <?php echo $date->id;?> - <?php echo $date->departure->format('d.m.Y');?> - <?php echo $date->arrival->format('d.m.Y');?></strong></p>
-            <?php if($booking_package->price_mix == 'date_housing') {?>
-                <?php foreach ($date->getHousingOptions() as $housing_option) {
-                    $housing_package = $housing_option->getHousingPackage();
-                    ?>
-                    <p><?php echo $housing_option->name;?>: <?php echo \Pressmind\HelperFunctions::number_format($housing_option->price);?>€ p. Person [<a href="http://ib3-v3.local/?imo=<?php echo $booking_package->id_media_object; ?>&idbp=<?php echo $booking_package->id; ?>&idhp=<?php echo $housing_package->id; ?>&idd=<?php echo $date->id; ?>&iho[<?php echo $housing_option->id; ?>]=1" target="_blank">Book</a>]</p>
-                <?php }?>
-            <?php }?>
             <?php if($booking_package->price_mix == 'date_ticket') {?>
                 <?php foreach ($date->getTickets() as $ticket) {
                     ?>
                     <p><?php echo $ticket->name;?>: <?php echo \Pressmind\HelperFunctions::number_format($ticket->price);?>€ p. Person [<a href="http://ib3-v3.local/?imo=<?php echo $booking_package->id_media_object; ?>&idbp=<?php echo $booking_package->id; ?>&idd=<?php echo $date->id; ?>&ido=<?php echo $ticket->id;?>" target="_blank">Book</a>]</p>
+                    <?php if(!empty($ticket->discount)) {?>
+                        <p><strong>Discount</strong></p>
+                        <pre><?php print_r($ticket->discount->toStdClass());?></pre>
+                    <?php }?>
                 <?php }?>
             <?php }?>
             <?php if($booking_package->price_mix == 'date_extra') {?>
                 <?php foreach ($date->getExtras() as $extra) {
                     ?>
                     <p><?php echo $extra->name;?>: <?php echo \Pressmind\HelperFunctions::number_format($extra->price);?>€ p. Person [<a href="http://ib3-v3.local/?imo=<?php echo $booking_package->id_media_object; ?>&idbp=<?php echo $booking_package->id; ?>&idd=<?php echo $date->id; ?>&ido=<?php echo $extra->id;?>" target="_blank">Book</a>]</p>
+                    <?php if(!empty($extra->discount)) {?>
+                        <p><strong>Discount</strong></p>
+                        <pre><?php print_r($extra->discount->toStdClass());?></pre>
+                    <?php }?>
+                <?php }?>
+            <?php }?>
+            <?php if($booking_package->price_mix == 'date_sightseeing') {?>
+                <?php foreach ($date->getSightseeings() as $sightseeing) {
+                    ?>
+                    <p><?php echo $sightseeing->name;?>: <?php echo \Pressmind\HelperFunctions::number_format($sightseeing->price);?>€ p. Person [<a href="http://ib3-v3.local/?imo=<?php echo $booking_package->id_media_object; ?>&idbp=<?php echo $booking_package->id; ?>&idd=<?php echo $date->id; ?>&ido=<?php echo $sightseeing->id;?>" target="_blank">Book</a>]</p>
+                    <?php if(!empty($sightseeing->discount)) {?>
+                        <p><strong>Discount</strong></p>
+                        <pre><?php print_r($sightseeing->discount->toStdClass());?></pre>
+                    <?php }?>
                 <?php }?>
             <?php }?>
         <?php }?>
@@ -141,6 +152,7 @@ $cheapest_price = $media_object->getCheapestPrice();
     <?php }?>
     <h6>Images</h6>
     <?php foreach ($itineraryStep->document_media_objects as $document_media_object) {?>
+        <img src=
         <pre><?php print_r($document_media_object->toStdClass());?></pre>
     <?php }?>
     <h6>Linked Text Objects</h6>
