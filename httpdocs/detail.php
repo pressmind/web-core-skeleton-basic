@@ -4,9 +4,11 @@ ini_set('display_errors', 1);
 
 use Pressmind\ORM\Object\MediaObject;
 
-$start_time = microtime(true);
 require_once '../application/bootstrap.php';
-$skipCache = isset($_GET['preview']);
+
+$start_time = microtime(true);
+$config = \Pressmind\Registry::getInstance()->get('config');
+$skipCache = isset($_GET['preview']) || ($no_cache = isset($_GET[$config['cache']['disable_parameter']['key']]) && $_GET[$config['cache']['disable_parameter']['key']] == $config['cache']['disable_parameter']['value']);
 $mediaObject = new MediaObject(intval($_GET['id']), false, $skipCache);
 ?>
 <!doctype html>
