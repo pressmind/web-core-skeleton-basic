@@ -86,7 +86,7 @@ try {
     Writer::write($e->getMessage(), WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_ERROR);
 }
 
-Writer::write('Processing ' . count($result) . ' images', WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
+Writer::write('Processing ' . count($itinerary_result) . ' itinerary images', WRITER::OUTPUT_FILE, 'image_processor', Writer::TYPE_INFO);
 
 foreach ($itinerary_result as $itinerary_image) {
     $itinerary_binary_image = null;
