@@ -12,6 +12,7 @@
     "require": {
         "pressmind/sdk": "dev-master#v1.2.7",
         "ext-json": "*",
-        "ext-readline": "*"
+        "ext-readline": "*",
+        "mongodb/mongodb": "^1.9"
     }
 }
