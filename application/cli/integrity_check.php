@@ -43,6 +43,12 @@ foreach (Info::STATIC_MODELS as $model_name) {
                     case 'add_index':
                         addIndex($object->getDbTableName(), $difference['column_names'], $difference['index_name']);
                         break;
+                    case 'alter_primary_key':
+                        alterPrimaryKey($object->getDbTableName(), $difference['column_names'], $difference['old_column_names']);
+                        break;
+                    case 'drop_column':
+                        dropColumn($object->getDbTableName(), $difference['column_name']);
+                        break;
                 }
             }
         }
@@ -188,6 +194,23 @@ function dropColumn($tableName, $columnName) {
 
 function addIndex($tableName, $columnNames, $indexName) {
     $sql = "CREATE INDEX " . $indexName . " ON " . $tableName . " (" . implode(',' , $columnNames) . ")";
+    $db = Registry::getInstance()->get('db');
+    echo $sql . "\n";
+    $db->execute($sql);
+}
+
+function alterPrimaryKey($tableName, $newPrimaryKey, $oldPrimaryKey) {
+    $sql = "ALTER TABLE " . $tableName . " MODIFY " . $oldPrimaryKey . " varchar(255) NOT NULL";
+    $db = Registry::getInstance()->get('db');
+    echo $sql . "\n";
+    $db->execute($sql);
+
+    $sql = "ALTER TABLE " . $tableName . " DROP PRIMARY KEY";
+    $db = Registry::getInstance()->get('db');
+    echo $sql . "\n";
+    $db->execute($sql);
+
+    $sql = "ALTER TABLE " . $tableName . " ADD PRIMARY KEY (" . $newPrimaryKey . ")";
     $db = Registry::getInstance()->get('db');
     echo $sql . "\n";
     $db->execute($sql);
